@@ -25,8 +25,17 @@ function ProductSkeletonList({ count = 10 }: { count?: number }) {
 
 async function getCachedProducts() {
   'use cache';
-  const data = await productsApi.getAll({ limit: 20 });
-  return data.products;
+  const data = await productsApi.getAll({ limit: 80 });
+  const excludedCategories = [
+    'beauty',
+    'fragrances',
+    'womens-dresses',
+    'womens-shoes',
+    'womens-bags',
+    'womens-jewellery',
+    'skincare'
+  ];
+  return data.products.filter(p => !excludedCategories.includes(p.category));
 }
 
 async function PopularProducts() {
