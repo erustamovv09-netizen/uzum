@@ -1,65 +1,86 @@
-import Image from "next/image";
+import React, { Suspense } from 'react';
+import { productsApi } from '@/lib/api';
+import ProductCard from '@/components/ProductCard';
+import BannerCarousel from '@/components/BannerCarousel';
+import ScrollToTop from '@/components/ScrollToTop';
+import { QuickLinks, SectionHeading } from '@/components/HomeClientHeadings';
 
-export default function Home() {
+function ProductSkeletonList({ count = 10 }: { count?: number }) {
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: 10 }}>
+      {Array(count).fill(0).map((_, i) => (
+        <div key={i} style={{ background: 'white', borderRadius: 8, overflow: 'hidden', border: '1px solid var(--uzum-gray-200)' }}>
+          <div className="skeleton" style={{ width: '100%', height: 200, borderRadius: 0 }} />
+          <div style={{ padding: 10, display: 'flex', flexDirection: 'column', gap: 8 }}>
+            <div className="skeleton" style={{ height: 14 }} />
+            <div className="skeleton" style={{ height: 12, width: '60%' }} />
+            <div className="skeleton" style={{ height: 12, width: '80%' }} />
+            <div className="skeleton" style={{ height: 36, borderRadius: 8 }} />
+          </div>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+      ))}
+    </div>
+  );
+}
+
+async function getCachedProducts() {
+  'use cache';
+  const data = await productsApi.getAll({ limit: 20 });
+  return data.products;
+}
+
+async function PopularProducts() {
+  const products = await getCachedProducts();
+  return (
+    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: 10 }}>
+      {products.slice(0, 10).map(p => (
+        <ProductCard key={p.id} product={p} />
+      ))}
+    </div>
+  );
+}
+
+async function NewProducts() {
+  const products = await getCachedProducts();
+  return (
+    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: 10 }}>
+      {products.slice(10, 20).map(p => (
+        <ProductCard key={p.id} product={p} />
+      ))}
+    </div>
+  );
+}
+
+export default function HomePage() {
+  return (
+    <div style={{ background: '#FFFFFF', minHeight: '100vh' }}>
+      <div style={{ maxWidth: 1240, margin: '0 auto', padding: '12px 16px' }}>
+        
+        {/* Banner */}
+        <BannerCarousel />
+
+        {/* Quick Links */}
+        <QuickLinks />
+
+        {/* Mashhur Section */}
+        <div style={{ marginBottom: 32 }}>
+          <SectionHeading titleKey="popular" defaultText="Mashhur" />
+          <Suspense fallback={<ProductSkeletonList count={5} />}>
+            <PopularProducts />
+          </Suspense>
         </div>
-      </main>
+
+        {/* Yangi Mahsulotlar Section */}
+        <div style={{ marginBottom: 32 }}>
+          <SectionHeading titleKey="newProducts" defaultText="Yangi mahsulotlar" />
+          <Suspense fallback={<ProductSkeletonList count={5} />}>
+            <NewProducts />
+          </Suspense>
+        </div>
+
+      </div>
+
+      <ScrollToTop />
     </div>
   );
 }

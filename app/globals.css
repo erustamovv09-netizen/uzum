@@ -3,6 +3,11 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --uzum-purple: #7000ff;
+  --uzum-purple-dark: #5500cc;
+  --uzum-purple-light: #ede8ff;
+  --uzum-gray-100: #f4f5f7;
+  --uzum-gray-200: #eaecef;
 }
 
 @theme inline {
