@@ -101,7 +101,7 @@ export default function ProductsFilterSidebar() {
               onBlur={handleApplyPrice}
               placeholder={t('from')}
               style={{
-                flex: 1, border: '1.5px solid #E0E0E0', borderRadius: 10,
+                flex: 1, width: '100%', minWidth: 0, border: '1.5px solid #E0E0E0', borderRadius: 10,
                 padding: '8px 12px', fontSize: 14, outline: 'none',
               }}
             />
@@ -113,7 +113,7 @@ export default function ProductsFilterSidebar() {
               onBlur={handleApplyPrice}
               placeholder={t('to')}
               style={{
-                flex: 1, border: '1.5px solid #E0E0E0', borderRadius: 10,
+                flex: 1, width: '100%', minWidth: 0, border: '1.5px solid #E0E0E0', borderRadius: 10,
                 padding: '8px 12px', fontSize: 14, outline: 'none',
               }}
             />
