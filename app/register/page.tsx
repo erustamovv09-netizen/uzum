@@ -37,14 +37,19 @@ export default function RegisterPage() {
       padding: '24px 16px', background: 'linear-gradient(135deg, #F8F0FF 0%, #FFF5FB 100%)',
     }}>
       <div style={{ width: '100%', maxWidth: 480 }}>
-        <div style={{ textAlign: 'center', marginBottom: 40 }}>
-          <div style={{
-            width: 64, height: 64, background: 'linear-gradient(135deg, #7000FF, #A855F7)',
-            borderRadius: 20, display: 'flex', alignItems: 'center', justifyContent: 'center',
-            fontSize: 36, fontWeight: 900, color: 'white', margin: '0 auto 12px',
-          }}>U</div>
-          <h1 style={{ fontSize: 28, fontWeight: 900, color: '#1A1A1A' }}>{t('registerTitle')}</h1>
-          <p style={{ color: '#808080', fontSize: 15, marginTop: 6 }}>{t('registerDesc')}</p>
+        <div style={{ textAlign: 'center', marginBottom: 28 }}>
+          <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 12, marginBottom: 16 }}>
+            <img
+              src="https://yt3.googleusercontent.com/VrLVt-BzggpF0KX98EZRKHe0VDlJgJQUSW7IlPLfqMJR_xiMxNAZsmQFZezzUg6lG7tINr_vGtw=s900-c-k-c0x00ffffff-no-rj"
+              alt="Uzum logo"
+              style={{ width: 44, height: 44, borderRadius: 10, objectFit: 'contain' }}
+            />
+            <span style={{ fontSize: 32, fontWeight: 800, color: '#7000FF', letterSpacing: '-0.8px' }}>
+              uzum<span style={{ fontWeight: 500 }}>market</span>
+            </span>
+          </div>
+          <h1 style={{ fontSize: 24, fontWeight: 900, color: '#1A1A1A', marginTop: 12 }}>{t('registerTitle')}</h1>
+          <p style={{ color: '#808080', fontSize: 14, marginTop: 4 }}>{t('registerDesc')}</p>
         </div>
 
         <div style={{ background: 'white', borderRadius: 24, padding: 32, boxShadow: '0 8px 40px rgba(112, 0, 255, 0.08)' }}>

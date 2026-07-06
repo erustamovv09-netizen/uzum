@@ -189,18 +189,23 @@ export default function Header() {
 
           {/* Logo */}
           <Link href="/" style={{ textDecoration: 'none', flexShrink: 0, marginRight: 4 }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-              {/* Uzum "u" circle logo */}
-              <div style={{
-                width: 36, height: 36, background: '#7000FF', borderRadius: '50%',
-                display: 'flex', alignItems: 'center', justifyContent: 'center',
+            <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+              <img
+                src="https://yt3.googleusercontent.com/VrLVt-BzggpF0KX98EZRKHe0VDlJgJQUSW7IlPLfqMJR_xiMxNAZsmQFZezzUg6lG7tINr_vGtw=s900-c-k-c0x00ffffff-no-rj"
+                alt="Uzum"
+                style={{ width: 28, height: 28, borderRadius: 6, objectFit: 'contain' }}
+              />
+              <span style={{
+                fontSize: 22,
+                fontWeight: 800,
+                color: '#7000FF',
+                letterSpacing: '-0.5px',
+                display: 'flex',
+                alignItems: 'baseline',
+                gap: 4
               }}>
-                <svg width="20" height="20" viewBox="0 0 32 32" fill="none">
-                  <path fillRule="evenodd" clipRule="evenodd" d="M16 3.75C9.51 3.75 4.25 9.01 4.25 15.5S9.51 27.25 16 27.25 27.75 21.99 27.75 15.5 22.49 3.75 16 3.75ZM14.6 8l-.01 6.52h2.83V8.05A10.9 10.9 0 0 0 16 7.95c-.48 0-.95.02-1.4.05ZM21.58 22.09a7.93 7.93 0 0 0 2.38-5.59v-4.72a18.5 18.5 0 0 0-3.15-.8v5.51c0 3.96-1.69 5.93-4.81 5.93s-4.81-1.97-4.81-5.93v-5.51c-1.07.19-2.13.46-3.15.8v4.72a7.93 7.93 0 0 0 2.38 5.59 7.93 7.93 0 0 0 5.58 2.31 7.93 7.93 0 0 0 5.58-2.31Z" fill="white"/>
-                </svg>
-              </div>
-              <span style={{ fontSize: 18, fontWeight: 700, color: '#1C1C1C', letterSpacing: -0.3 }}>
-                uzum <span style={{ color: '#7000FF' }}>market</span>
+                uzum
+                <span style={{ fontWeight: 500, color: '#7000FF' }}>market</span>
               </span>
             </div>
           </Link>
