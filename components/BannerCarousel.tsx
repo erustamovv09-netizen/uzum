@@ -123,6 +123,7 @@ export default function BannerCarousel() {
                     style={{ 
                       height: '100%', 
                       width: 'auto', 
+                      maxWidth: '100%',
                       objectFit: 'contain',
                       filter: 'drop-shadow(0 15px 30px rgba(0,0,0,0.35))' 
                     }} 
