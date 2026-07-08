@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import Image from 'next/image';
 import { Product, formatPrice, getDiscountedPrice } from '@/lib/api';
 import { useCart } from '@/lib/CartContext';
+import { useWishlist } from '@/lib/WishlistContext';
 import ProductCard from '@/components/ProductCard';
 import { useLanguage } from '@/lib/LanguageContext';
 
@@ -95,9 +96,12 @@ export default function ProductDetailsClient({ product, related }: ProductDetail
   const [quantity, setQuantity] = useState(1);
   const [activeTab, setActiveTab] = useState<'description' | 'specs' | 'reviews'>('description');
   const { addItem, isInCart, getItemQuantity } = useCart();
+  const { toggleWishlist, isInWishlist } = useWishlist();
   const [addedMsg, setAddedMsg] = useState(false);
+  const [isPopping, setIsPopping] = useState(false);
   const { t, language } = useLanguage();
 
+  const wishlist = isInWishlist(product.id);
   const discountedPrice = getDiscountedPrice(product.price, product.discountPercentage);
   const inCart = isInCart(product.id);
   const cartQty = getItemQuantity(product.id);
@@ -106,6 +110,14 @@ export default function ProductDetailsClient({ product, related }: ProductDetail
     addItem(product, quantity);
     setAddedMsg(true);
     setTimeout(() => setAddedMsg(false), 2000);
+  };
+
+  const handleToggleWishlist = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    toggleWishlist(product);
+    setIsPopping(true);
+    setTimeout(() => setIsPopping(false), 300);
   };
 
   return (
@@ -260,10 +272,36 @@ export default function ProductDetailsClient({ product, related }: ProductDetail
             >
               {addedMsg ? `✓ ${t('added')}` : inCart ? `${t('inCart')} (${cartQty + quantity}) → ${t('update')}` : `🛒 ${t('addToCart')}`}
             </button>
-            <button style={{
-              width: 52, height: 52, background: '#FFF0EB', border: '1.5px solid #FFD0C0',
-              borderRadius: 14, cursor: 'pointer', fontSize: 22,
-            }}>🤍</button>
+            <button
+              onClick={handleToggleWishlist}
+              style={{
+                width: 52,
+                height: 52,
+                background: wishlist ? 'var(--uzum-purple-light)' : '#F5F5F5',
+                border: `1.5px solid ${wishlist ? 'var(--uzum-purple)' : 'transparent'}`,
+                borderRadius: 14,
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                transition: 'all 0.2s ease',
+                transform: isPopping ? 'scale(1.25)' : 'scale(1)',
+              }}
+              onMouseEnter={e => {
+                if (!wishlist) {
+                  (e.currentTarget as HTMLButtonElement).style.background = '#EAEAEA';
+                }
+              }}
+              onMouseLeave={e => {
+                if (!wishlist) {
+                  (e.currentTarget as HTMLButtonElement).style.background = '#F5F5F5';
+                }
+              }}
+            >
+              <svg width="24" height="24" viewBox="0 0 24 24" fill={wishlist ? '#FF1A8C' : 'none'} stroke={wishlist ? '#FF1A8C' : '#1C1C1C'} strokeWidth="1.8">
+                <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+              </svg>
+            </button>
           </div>
 
           {/* Buy now */}

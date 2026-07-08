@@ -88,8 +88,8 @@ const TRANSLATIONS: Record<Language, Record<string, string>> = {
     specs: "Xususiyatlar",
     description: "Tavsif",
     nasiyaTitle: "Uzum Nasiya",
-    addToCart: "Korzinkaga qo'shish",
-    inCartUpdate: "Korzinada",
+    addToCart: "Savatga qo'shish",
+    inCartUpdate: "Savatda",
     buyNow: "Hoziroq sotib olish",
     fastDelivery: "Tez yetkazib berish",
     fastDeliveryDesc: "1–3 ish kunida Toshkent bo'ylab",
@@ -111,8 +111,8 @@ const TRANSLATIONS: Record<Language, Record<string, string>> = {
     pieces: "ta",
     
     // Cart Page
-    cartTitle: "Korzinka",
-    cartEmpty: "Korzinka bo'sh",
+    cartTitle: "Savat",
+    cartEmpty: "Savat bo'sh",
     cartEmptyDesc: "Xarid qilishni boshlash uchun mahsulot qo'shing!",
     gotoProducts: "Mahsulotlarga o'tish",
     clearCart: "Hammasini o'chirish",

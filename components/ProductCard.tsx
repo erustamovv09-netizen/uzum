@@ -136,65 +136,59 @@ export default function ProductCard({ product }: ProductCardProps) {
             <span style={{ fontSize: 11, color: '#717480' }}>(142)</span>
           </div>
 
-          {/* Bottom row: Price, Installment & Cart Button */}
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginTop: 'auto', paddingTop: 6 }}>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 4, minWidth: 0 }}>
-              {/* Installment badge */}
-              <div style={{
-                display: 'inline-flex', alignItems: 'center',
-                background: '#FFF066', borderRadius: 4, padding: '2px 6px', width: 'fit-content',
-              }}>
-                <span style={{ fontSize: 9, fontWeight: 700, color: '#1C1C1C', whiteSpace: 'nowrap' }}>
-                  {Math.round(discountedPrice * 12700 / 12).toLocaleString('uz-UZ')} / oy
-                </span>
+          {/* Price */}
+          <div style={{ marginTop: 'auto' }}>
+            {hasDiscount && (
+              <div style={{ fontSize: 11, color: '#717480', textDecoration: 'line-through' }}>
+                {formatPrice(product.price)}
               </div>
-              
-              {/* Prices */}
-              <div style={{ marginTop: 2 }}>
-                {hasDiscount && (
-                  <div style={{ fontSize: 10, color: '#717480', textDecoration: 'line-through', marginBottom: -2 }}>
-                    {formatPrice(product.price)}
-                  </div>
-                )}
-                <div style={{ fontSize: 14, fontWeight: 700, color: '#1C1C1C', whiteSpace: 'nowrap' }}>
-                  {formatPrice(discountedPrice)}
-                </div>
-              </div>
+            )}
+            <div style={{ fontSize: 15, fontWeight: 700, color: '#1C1C1C' }}>
+              {formatPrice(discountedPrice)}
             </div>
-
-            {/* Circular Cart Button */}
-            <button
-              onClick={handleAddToCart}
-              style={{
-                width: 32, height: 32, borderRadius: '50%',
-                border: `1.5px solid ${inCart ? '#7000FF' : '#7000FF'}`,
-                background: inCart ? '#7000FF' : 'transparent',
-                color: inCart ? 'white' : '#7000FF',
-                cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center',
-                transition: 'all 0.15s', flexShrink: 0,
-              }}
-              onMouseEnter={e => {
-                if (!inCart) {
-                  (e.currentTarget as HTMLButtonElement).style.background = 'var(--uzum-purple-light)';
-                }
-              }}
-              onMouseLeave={e => {
-                if (!inCart) {
-                  (e.currentTarget as HTMLButtonElement).style.background = 'transparent';
-                }
-              }}
-            >
-              {inCart ? (
-                <span style={{ fontSize: 12, fontWeight: 800 }}>{qty}</span>
-              ) : (
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/>
-                  <line x1="3" y1="6" x2="21" y2="6"/>
-                  <path d="M16 10a4 4 0 01-8 0"/>
-                </svg>
-              )}
-            </button>
           </div>
+
+          {/* Installment badge — yellow, like uzum */}
+          <div style={{
+            display: 'inline-flex', alignItems: 'center', gap: 4,
+            background: '#FEE200', borderRadius: 4, padding: '2px 6px', width: 'fit-content',
+          }}>
+            <span style={{ fontSize: 10, fontWeight: 700, color: '#1C1C1C' }}>
+              {formatPrice(discountedPrice / 12)}{t('perMonth')}
+            </span>
+          </div>
+
+          {/* Add to cart */}
+          <button
+            onClick={handleAddToCart}
+            style={{
+              width: '100%', border: `1px solid ${inCart ? 'var(--uzum-purple)' : 'var(--uzum-gray-200)'}`,
+              background: inCart ? 'var(--uzum-purple-light)' : 'white',
+              borderRadius: 8, padding: '7px', fontSize: 12, fontWeight: 600,
+              cursor: 'pointer', transition: 'all 0.15s',
+              color: inCart ? 'var(--uzum-purple)' : '#1C1C1C',
+              display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 4,
+            }}
+            onMouseEnter={e => {
+              if (!inCart) {
+                (e.currentTarget as HTMLButtonElement).style.borderColor = 'var(--uzum-purple)';
+                (e.currentTarget as HTMLButtonElement).style.color = 'var(--uzum-purple)';
+              }
+            }}
+            onMouseLeave={e => {
+              if (!inCart) {
+                (e.currentTarget as HTMLButtonElement).style.borderColor = 'var(--uzum-gray-200)';
+                (e.currentTarget as HTMLButtonElement).style.color = '#1C1C1C';
+              }
+            }}
+          >
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/>
+              <line x1="3" y1="6" x2="21" y2="6"/>
+              <path d="M16 10a4 4 0 01-8 0"/>
+            </svg>
+            {inCart ? `${t('inCart')} (${qty})` : t('toCart')}
+          </button>
         </div>
       </div>
     </Link>
