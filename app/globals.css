@@ -243,3 +243,17 @@ body {
     padding: 10px 14px !important;
   }
 }
+
+/* ── RESPONSIVE PRODUCT DETAILS GRID ──────────────────────────────────── */
+.product-details-grid {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 24px !important;
+}
+@media (min-width: 769px) {
+  .product-details-grid {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    gap: 40px !important;
+  }
+}

@@ -120,7 +120,7 @@ export default function ProductDetailsClient({ product, related }: ProductDetail
       </div>
 
       {/* Product main */}
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 40, marginBottom: 48 }}>
+      <div className="product-details-grid" style={{ marginBottom: 48 }}>
         {/* Images */}
         <div>
           <div style={{
