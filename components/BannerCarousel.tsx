@@ -9,10 +9,42 @@ export default function BannerCarousel() {
   const [banner, setBanner] = useState(0);
 
   const BANNERS = [
-    { id: 1, bg: 'linear-gradient(135deg, #1A0050 0%, #4400AA 40%, #0080FF 100%)', title: t('banner1Title'), sub: t('banner1Sub'), badge: t('banner1Badge'), href: '/products' },
-    { id: 2, bg: 'linear-gradient(135deg, #002244 0%, #0044AA 50%, #00AAFF 100%)', title: t('banner2Title'), sub: t('banner2Sub'), badge: t('banner2Badge'), href: '/category/smartphones' },
-    { id: 3, bg: 'linear-gradient(135deg, #002200 0%, #006600 50%, #00CC44 100%)', title: t('banner3Title'), sub: t('banner3Sub'), badge: t('banner3Badge'), href: '/category/groceries' },
-    { id: 4, bg: 'linear-gradient(135deg, #1C1917 0%, #44403C 50%, #78716C 100%)', title: t('banner4Title'), sub: t('banner4Sub'), badge: t('banner4Badge'), href: '/category/mens-shirts' },
+    { 
+      id: 1, 
+      bg: 'linear-gradient(135deg, #7000FF 0%, #8B5CF6 50%, #EC4899 100%)', 
+      title: t('banner1Title'), 
+      sub: t('banner1Sub'), 
+      badge: t('banner1Badge'), 
+      image: "https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?q=80&w=600&auto=format&fit=crop", 
+      href: '/products' 
+    },
+    { 
+      id: 2, 
+      bg: 'linear-gradient(135deg, #0A0F24 0%, #1A235A 50%, #303F9F 100%)', 
+      title: t('banner2Title'), 
+      sub: t('banner2Sub'), 
+      badge: t('banner2Badge'), 
+      image: "https://fdn2.gsmarena.com/vv/bigpic/xiaomi-14-ultra.jpg", 
+      href: '/category/smartphones' 
+    },
+    { 
+      id: 3, 
+      bg: 'linear-gradient(135deg, #064E3B 0%, #059669 50%, #34D399 100%)', 
+      title: t('banner3Title'), 
+      sub: t('banner3Sub'), 
+      badge: t('banner3Badge'), 
+      image: "https://images.unsplash.com/photo-1610832958506-ee5633619144?q=80&w=600&auto=format&fit=crop", 
+      href: '/category/groceries' 
+    },
+    { 
+      id: 4, 
+      bg: 'linear-gradient(135deg, #451A03 0%, #78350F 50%, #D97706 100%)', 
+      title: t('banner4Title'), 
+      sub: t('banner4Sub'), 
+      badge: t('banner4Badge'), 
+      image: "https://images.unsplash.com/photo-1549298916-b41d501d3772?q=80&w=600&auto=format&fit=crop", 
+      href: '/category/clothing' 
+    },
   ];
 
   useEffect(() => {
@@ -21,7 +53,7 @@ export default function BannerCarousel() {
   }, [BANNERS.length]);
 
   return (
-    <div style={{ position: 'relative', borderRadius: 12, overflow: 'hidden', height: 360, marginBottom: 12 }}>
+    <div className="banner-carousel-container" style={{ position: 'relative', borderRadius: 12, overflow: 'hidden', marginBottom: 12 }}>
       {BANNERS.map((b, i) => {
         // Safe split for badge
         const badgeParts = b.badge ? b.badge.split(' ') : ['', ''];
@@ -43,41 +75,73 @@ export default function BannerCarousel() {
               visibility: i === banner ? 'visible' : 'hidden',
             }}
           >
-            <div style={{
+            <div className="banner-slide" style={{
               width: '100%',
               height: '100%',
               background: b.bg,
               display: 'flex', alignItems: 'center',
-              padding: '0 60px',
               cursor: 'pointer',
+              position: 'relative',
+              overflow: 'hidden',
             }}>
               {/* Left text block */}
-              <div style={{
-                background: 'rgba(80,0,160,0.85)', borderRadius: 16,
-                padding: '28px 32px', maxWidth: 280,
+              <div className="banner-text-box" style={{
+                background: 'rgba(0, 0, 0, 0.25)', 
+                backdropFilter: 'blur(8px)',
+                WebkitBackdropFilter: 'blur(8px)',
+                borderRadius: 16,
+                border: '1px solid rgba(255,255,255,0.1)',
+                zIndex: 5,
               }}>
-                <div style={{ fontSize: 32, fontWeight: 900, color: 'white', lineHeight: 1.1, textTransform: 'uppercase' }}>
+                <div className="banner-text-title" style={{ fontWeight: 900, color: 'white', lineHeight: 1.1, textTransform: 'uppercase' }}>
                   {b.title}
                 </div>
-                <div style={{
-                  marginTop: 10, background: 'var(--uzum-purple)', borderRadius: 8,
-                  padding: '8px 16px', fontSize: 20, fontWeight: 800, color: 'white',
+                <div className="banner-text-sub" style={{
+                  background: 'var(--uzum-purple)', borderRadius: 8,
+                  fontWeight: 800, color: 'white',
+                  textAlign: 'center'
                 }}>
                   {b.sub}
                 </div>
               </div>
 
+              {/* Floating Product Image */}
+              {b.image && (
+                <div className="banner-image-container" style={{
+                  position: 'absolute',
+                  bottom: 0,
+                  transform: 'translateX(-50%)',
+                  display: 'flex',
+                  alignItems: 'flex-end',
+                  justifyContent: 'center',
+                  zIndex: 3,
+                  pointerEvents: 'none',
+                }}>
+                  <img 
+                    src={b.image} 
+                    alt={b.title} 
+                    style={{ 
+                      height: '100%', 
+                      width: 'auto', 
+                      objectFit: 'contain',
+                      filter: 'drop-shadow(0 15px 30px rgba(0,0,0,0.35))' 
+                    }} 
+                  />
+                </div>
+              )}
+
               {/* Right: big badge */}
-              <div style={{
+              <div className="banner-badge" style={{
                 marginLeft: 'auto', marginRight: 40,
                 background: 'rgba(255,220,0,0.15)', border: '4px solid rgba(255,220,0,0.6)',
-                borderRadius: '50%', width: 200, height: 200,
+                borderRadius: '50%',
                 display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
+                zIndex: 5,
               }}>
-                <div style={{ fontSize: 36, fontWeight: 900, color: '#FFD700', textAlign: 'center', lineHeight: 1 }}>
+                <div className="banner-badge-num" style={{ fontWeight: 900, color: '#FFD700', textAlign: 'center', lineHeight: 1 }}>
                   {badgeNum}
                 </div>
-                <div style={{ fontSize: 16, fontWeight: 700, color: '#FFD700' }}>{badgeTxt}</div>
+                <div className="banner-badge-txt" style={{ fontWeight: 700, color: '#FFD700' }}>{badgeTxt}</div>
               </div>
             </div>
           </Link>
@@ -88,6 +152,7 @@ export default function BannerCarousel() {
       {[{ side: 'left', delta: -1 }, { side: 'right', delta: 1 }].map(({ side, delta }) => (
         <button
           key={side}
+          className="hide-on-mobile"
           onClick={(e) => {
             e.preventDefault();
             e.stopPropagation();

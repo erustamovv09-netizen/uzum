@@ -16,15 +16,16 @@ export function QuickLinks() {
   ];
 
   return (
-    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: 8, marginBottom: 24 }}>
+    <div className="quick-links-container" style={{ marginBottom: 24 }}>
       {QUICK_LINKS.map((link, idx) => (
-        <Link key={idx} href={link.href} style={{ textDecoration: 'none' }}>
-          <div style={{
+        <Link key={idx} href={link.href} style={{ textDecoration: 'none', display: 'flex' }}>
+          <div className="quick-links-card" style={{
             background: '#F4F5F7', borderRadius: 12, padding: '12px 16px',
             display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10,
             border: 'none', cursor: 'pointer',
             transition: 'background 0.15s',
             height: '100%',
+            width: '100%',
           }}>
             <span style={{ fontSize: 28, flexShrink: 0 }}>{link.icon}</span>
             <span style={{ fontSize: 13, fontWeight: 500, color: '#1C1C1C', lineHeight: 1.3 }}>{link.label}</span>

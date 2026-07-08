@@ -522,8 +522,8 @@ export default function Header() {
       </div>
 
       {/* ── CATEGORY NAV ────────────────────────────────────────────────────── */}
-      <div style={{ background: '#fff', borderBottom: '1px solid var(--uzum-gray-200)' }}>
-        <div style={{ maxWidth: 1240, margin: '0 auto', padding: '0 16px', display: 'flex', overflowX: 'auto', gap: 0 }}>
+      <div style={{ background: '#fff', borderBottom: '1px solid var(--uzum-gray-200)', overflow: 'hidden', width: '100%' }}>
+        <div style={{ maxWidth: 1240, width: '100%', margin: '0 auto', padding: '0 16px', display: 'flex', overflowX: 'auto', gap: 0, boxSizing: 'border-box' }}>
           {NAV_ITEMS.map((item, i) => (
             <Link key={i} href={item.href} style={{ textDecoration: 'none', flexShrink: 0 }}>
               <div style={{
