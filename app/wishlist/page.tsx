@@ -38,7 +38,7 @@ export default function WishlistPage() {
         >{t('clearCart')}</button>
       </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))', gap: 16 }}>
+      <div className="responsive-product-grid">
         {items.map(product => (
           <ProductCard key={product.id} product={product} />
         ))}

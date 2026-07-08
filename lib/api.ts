@@ -130,10 +130,9 @@ export const MOCK_REDMI_PRODUCTS: Product[] = [
     stock: 45,
     brand: "Xiaomi",
     category: "smartphones",
-    thumbnail: "https://images.unsplash.com/photo-1598327105666-5b89351aff97?q=80&w=600&auto=format&fit=crop",
+    thumbnail: "https://fdn2.gsmarena.com/vv/bigpic/xiaomi-redmi-note-13-pro.jpg",
     images: [
-      "https://images.unsplash.com/photo-1598327105666-5b89351aff97?q=80&w=600&auto=format&fit=crop",
-      "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?q=80&w=600&auto=format&fit=crop"
+      "https://fdn2.gsmarena.com/vv/bigpic/xiaomi-redmi-note-13-pro.jpg"
     ]
   },
   {
@@ -146,9 +145,9 @@ export const MOCK_REDMI_PRODUCTS: Product[] = [
     stock: 85,
     brand: "Xiaomi",
     category: "smartphones",
-    thumbnail: "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?q=80&w=600&auto=format&fit=crop",
+    thumbnail: "https://fdn2.gsmarena.com/vv/bigpic/xiaomi-redmi-13c.jpg",
     images: [
-      "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?q=80&w=600&auto=format&fit=crop"
+      "https://fdn2.gsmarena.com/vv/bigpic/xiaomi-redmi-13c.jpg"
     ]
   },
   {
@@ -161,9 +160,9 @@ export const MOCK_REDMI_PRODUCTS: Product[] = [
     stock: 12,
     brand: "Xiaomi",
     category: "smartphones",
-    thumbnail: "https://images.unsplash.com/photo-1605787020600-b9ebd5df1d07?q=80&w=600&auto=format&fit=crop",
+    thumbnail: "https://fdn2.gsmarena.com/vv/bigpic/xiaomi-14-ultra.jpg",
     images: [
-      "https://images.unsplash.com/photo-1605787020600-b9ebd5df1d07?q=80&w=600&auto=format&fit=crop"
+      "https://fdn2.gsmarena.com/vv/bigpic/xiaomi-14-ultra.jpg"
     ]
   },
   {
@@ -195,6 +194,100 @@ export const MOCK_REDMI_PRODUCTS: Product[] = [
     images: [
       "https://images.unsplash.com/photo-1508685096489-7aacd43bd3b1?q=80&w=600&auto=format&fit=crop"
     ]
+  }
+];
+
+export const MOCK_CLOTHING_PRODUCTS: Product[] = [
+  {
+    id: 99101,
+    title: "Ayollar zamonaviy shifon ko'ylagi",
+    description: "Yozgi yengil shifon ko'ylak, bejirim dizayn va yuqori sifatli mato. Kundalik kiyish va tadbirlar uchun juda mos keladi.",
+    price: 50,
+    discountPercentage: 10,
+    rating: 4.8,
+    stock: 50,
+    brand: "Zara",
+    category: "womens-dresses",
+    thumbnail: "https://images.unsplash.com/photo-1595777457583-95e059d581b8?q=80&w=600&auto=format&fit=crop",
+    images: ["https://images.unsplash.com/photo-1595777457583-95e059d581b8?q=80&w=600&auto=format&fit=crop"]
+  },
+  {
+    id: 99102,
+    title: "Klassik ayollar kostyum-shimi",
+    description: "Ayollar uchun zamonaviy klassik kostyum va shim to'plami. Sifatli mato, qulay bichim va ofis hamda maxsus kunlar uchun ajoyib tanlov.",
+    price: 90,
+    discountPercentage: 15,
+    rating: 4.9,
+    stock: 35,
+    brand: "Mango",
+    category: "womens-dresses",
+    thumbnail: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=600&auto=format&fit=crop",
+    images: ["https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=600&auto=format&fit=crop"]
+  },
+  {
+    id: 99103,
+    title: "Yumshoq trikotaj kardigan",
+    description: "Bahorgi va kuzgi mavsum uchun qulay trikotaj kardigan. Kundalik kiyimlar bilan juda chiroyli mos tushadi.",
+    price: 36,
+    discountPercentage: 5,
+    rating: 4.7,
+    stock: 65,
+    brand: "H&M",
+    category: "tops",
+    thumbnail: "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?q=80&w=600&auto=format&fit=crop",
+    images: ["https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?q=80&w=600&auto=format&fit=crop"]
+  },
+  {
+    id: 99104,
+    title: "Zamonaviy ayollar bluzkasi",
+    description: "Yengil va bejirim ayollar bluzkasi. Har qanday yubka yoki shim bilan chiroyli ko'rinadi.",
+    price: 28,
+    discountPercentage: 8,
+    rating: 4.6,
+    stock: 80,
+    brand: "Zara",
+    category: "tops",
+    thumbnail: "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?q=80&w=600&auto=format&fit=crop",
+    images: ["https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?q=80&w=600&auto=format&fit=crop"]
+  },
+  {
+    id: 99201,
+    title: "Erkaklar klassik kostyum-shimi",
+    description: "To'ylar, rasmiy uchrashuvlar va tadbirlar uchun sifatli erkaklar kostyum to'plami. Premium material, mukammal bichim.",
+    price: 180,
+    discountPercentage: 12,
+    rating: 4.95,
+    stock: 20,
+    brand: "Billionaire",
+    category: "mens-shirts",
+    thumbnail: "https://images.unsplash.com/photo-1593030761757-71fae45fa0e7?q=80&w=600&auto=format&fit=crop",
+    images: ["https://images.unsplash.com/photo-1593030761757-71fae45fa0e7?q=80&w=600&auto=format&fit=crop"]
+  },
+  {
+    id: 99202,
+    title: "Klassik paxtali oq ko'ylak",
+    description: "100% tabiiy paxtadan tayyorlangan klassik erkaklar ko'ylagi. Nafas oladigan yumshoq mato, qulay dizayn.",
+    price: 40,
+    discountPercentage: 10,
+    rating: 4.8,
+    stock: 90,
+    brand: "Zara Men",
+    category: "mens-shirts",
+    thumbnail: "https://images.unsplash.com/photo-1603252109303-2751441dd157?q=80&w=600&auto=format&fit=crop",
+    images: ["https://images.unsplash.com/photo-1603252109303-2751441dd157?q=80&w=600&auto=format&fit=crop"]
+  },
+  {
+    id: 99203,
+    title: "Zamonaviy zig'ir (linen) ko'ylak",
+    description: "Yoz kunlari uchun salqin va yengil zig'ir tolasidan tikilgan ko'ylak. Kundalik kiyishga juda qulay.",
+    price: 38,
+    discountPercentage: 7,
+    rating: 4.75,
+    stock: 75,
+    brand: "Massimo Dutti",
+    category: "mens-shirts",
+    thumbnail: "https://images.unsplash.com/photo-1596755094514-f87e34085b2c?q=80&w=600&auto=format&fit=crop",
+    images: ["https://images.unsplash.com/photo-1596755094514-f87e34085b2c?q=80&w=600&auto=format&fit=crop"]
   }
 ];
 
@@ -300,19 +393,22 @@ export const productsApi = {
     
     let products = data.products.map(adjustProductPrice);
     if (!params?.skip || params.skip === 0) {
-      const mocks = MOCK_REDMI_PRODUCTS.map(adjustProductPrice);
+      const mocks = [
+        ...MOCK_REDMI_PRODUCTS.map(adjustProductPrice),
+        ...MOCK_CLOTHING_PRODUCTS.map(adjustProductPrice)
+      ];
       products = [...mocks, ...products];
     }
     
     return {
       ...data,
       products: products.slice(0, params?.limit || products.length),
-      total: data.total + MOCK_REDMI_PRODUCTS.length,
+      total: data.total + MOCK_REDMI_PRODUCTS.length + MOCK_CLOTHING_PRODUCTS.length,
     };
   },
 
   getById: async (id: number) => {
-    const mockProduct = MOCK_REDMI_PRODUCTS.find(p => p.id === id);
+    const mockProduct = MOCK_REDMI_PRODUCTS.find(p => p.id === id) || MOCK_CLOTHING_PRODUCTS.find(p => p.id === id);
     if (mockProduct) {
       return adjustProductPrice(mockProduct);
     }
@@ -321,6 +417,80 @@ export const productsApi = {
   },
 
   getByCategory: async (category: string, params?: { limit?: number; skip?: number }) => {
+    if (category === 'clothing') {
+      const limit = params?.limit || 20;
+      const skip = params?.skip || 0;
+      
+      const mockClothes = MOCK_CLOTHING_PRODUCTS.map(adjustProductPrice);
+      
+      const categoriesToFetch = ['mens-shirts', 'womens-dresses', 'tops'];
+      let apiClothes: Product[] = [];
+      try {
+        const responses = await Promise.all(
+          categoriesToFetch.map(cat => 
+            apiFetch<PaginatedProducts>(`/products/category/${cat}?limit=30`)
+          )
+        );
+        for (const res of responses) {
+          if (res && res.products) {
+            apiClothes = [...apiClothes, ...res.products.map(adjustProductPrice)];
+          }
+        }
+      } catch (err) {
+        console.error('Error fetching clothing categories:', err);
+      }
+      
+      const combined = [
+        ...mockClothes,
+        ...apiClothes.filter(ap => !mockClothes.some(mc => mc.id === ap.id))
+      ];
+      
+      return {
+        products: combined.slice(skip, skip + limit),
+        total: combined.length,
+        skip,
+        limit,
+      };
+    }
+
+    if (category === 'accessories') {
+      const limit = params?.limit || 20;
+      const skip = params?.skip || 0;
+      
+      const categoriesToFetch = ['sunglasses', 'womens-bags', 'womens-jewellery', 'mens-watches', 'womens-watches'];
+      try {
+        const responses = await Promise.all(
+          categoriesToFetch.map(cat => 
+            apiFetch<PaginatedProducts>(`/products/category/${cat}?limit=15`)
+          )
+        );
+        
+        let allProducts: Product[] = [];
+        for (const res of responses) {
+          if (res && res.products) {
+            allProducts = [...allProducts, ...res.products];
+          }
+        }
+        
+        const productsMapped = allProducts.map(adjustProductPrice);
+        
+        return {
+          products: productsMapped.slice(skip, skip + limit),
+          total: productsMapped.length,
+          skip,
+          limit,
+        };
+      } catch (err) {
+        console.error('Error fetching accessories categories:', err);
+        return {
+          products: [],
+          total: 0,
+          skip,
+          limit,
+        };
+      }
+    }
+
     const query = new URLSearchParams();
     if (params?.limit) query.set('limit', String(params.limit));
     if (params?.skip) query.set('skip', String(params.skip));
@@ -331,22 +501,40 @@ export const productsApi = {
     if (category === 'smartphones') {
       const mockSmartphones = MOCK_REDMI_PRODUCTS.filter(p => p.category === 'smartphones').map(adjustProductPrice);
       products = [...mockSmartphones, ...products];
+    } else if (category === 'mens-shirts' || category === 'womens-dresses' || category === 'tops') {
+      const mockClothes = MOCK_CLOTHING_PRODUCTS.filter(p => p.category === category).map(adjustProductPrice);
+      products = [...mockClothes, ...products];
     }
     
+    const additionalMocksLength = category === 'smartphones'
+      ? MOCK_REDMI_PRODUCTS.filter(p => p.category === 'smartphones').length
+      : (category === 'mens-shirts' || category === 'womens-dresses' || category === 'tops')
+      ? MOCK_CLOTHING_PRODUCTS.filter(p => p.category === category).length
+      : 0;
+
     return {
       ...data,
       products,
-      total: data.total + (category === 'smartphones' ? MOCK_REDMI_PRODUCTS.filter(p => p.category === 'smartphones').length : 0),
+      total: data.total + additionalMocksLength,
     };
   },
 
   search: async (q: string, params?: { limit?: number }) => {
     const cleanQ = q.toLowerCase().trim();
-    const matchedMocks = MOCK_REDMI_PRODUCTS.filter(p => 
+    
+    const matchedRedmi = MOCK_REDMI_PRODUCTS.filter(p => 
       p.title.toLowerCase().includes(cleanQ) || 
       p.description.toLowerCase().includes(cleanQ) ||
       cleanQ.includes('redmi') || cleanQ.includes('xiaomi') || cleanQ.includes('mi')
     );
+    
+    const matchedClothing = MOCK_CLOTHING_PRODUCTS.filter(p =>
+      p.title.toLowerCase().includes(cleanQ) ||
+      p.description.toLowerCase().includes(cleanQ) ||
+      cleanQ.includes('kiyim') || cleanQ.includes('ko\'ylak') || cleanQ.includes('kostyum') || cleanQ.includes('bluzka') || cleanQ.includes('kardigan') || cleanQ.includes('futbolka') || cleanQ.includes('shirt') || cleanQ.includes('dress')
+    );
+
+    const matchedMocks = [...matchedRedmi, ...matchedClothing];
 
     const translatedQuery = translateSearchQuery(q);
     const query = new URLSearchParams({ q: translatedQuery });
@@ -364,9 +552,15 @@ export const productsApi = {
       ...apiData.products.map(adjustProductPrice).filter(p => !matchedMocks.some(m => m.id === p.id))
     ];
 
-    const finalProducts = (cleanQ.includes('redmi') || cleanQ.includes('xiaomi') || cleanQ.includes('mi')) 
-      ? combinedProducts.filter(p => p.brand.toLowerCase() === 'xiaomi' || p.title.toLowerCase().includes('xiaomi') || p.title.toLowerCase().includes('redmi'))
-      : combinedProducts;
+    const isRedmiSearch = cleanQ.includes('redmi') || cleanQ.includes('xiaomi') || cleanQ.includes('mi');
+    const isClothingSearch = cleanQ.includes('kiyim') || cleanQ.includes('ko\'ylak') || cleanQ.includes('kostyum') || cleanQ.includes('dress') || cleanQ.includes('shirt') || cleanQ.includes('tops');
+    
+    let finalProducts = combinedProducts;
+    if (isRedmiSearch) {
+      finalProducts = combinedProducts.filter(p => p.brand.toLowerCase() === 'xiaomi' || p.title.toLowerCase().includes('xiaomi') || p.title.toLowerCase().includes('redmi'));
+    } else if (isClothingSearch) {
+      finalProducts = combinedProducts.filter(p => p.category === 'mens-shirts' || p.category === 'womens-dresses' || p.category === 'tops');
+    }
 
     const results = finalProducts.length > 0 ? finalProducts : combinedProducts;
 
@@ -454,6 +648,8 @@ export function getCategoryLabel(slug: string, lang: 'uz' | 'ru' = 'uz'): string
       'tablets': 'Planshetlar',
       'vehicle': 'Avtomobil',
       'kitchen-accessories': 'Oshxona aksessuarlari',
+      'clothing': 'Kiyim-kechak',
+      'accessories': 'Aksessuarlar',
     },
     ru: {
       'smartphones': 'Смартфоны',
@@ -481,6 +677,8 @@ export function getCategoryLabel(slug: string, lang: 'uz' | 'ru' = 'uz'): string
       'tablets': 'Планшеты',
       'vehicle': 'Автомобили',
       'kitchen-accessories': 'Кухонные принадлежности',
+      'clothing': 'Одежда',
+      'accessories': 'Аксессуары',
     }
   };
   return labels[lang]?.[slug] || labels['uz']?.[slug] || slug.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
@@ -513,6 +711,8 @@ export function getCategoryIcon(slug: string): string {
     'tablets': '📲',
     'vehicle': '🚙',
     'kitchen-accessories': '🍳',
+    'clothing': '👕',
+    'accessories': '🕶️',
   };
   return icons[slug] || '📦';
 }

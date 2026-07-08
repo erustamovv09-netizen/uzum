@@ -91,7 +91,7 @@ export default function ProductsListClient({ initialProducts }: ProductsListClie
   ];
 
   return (
-    <div style={{ display: 'flex', gap: 24, width: '100%' }}>
+    <div className="split-layout" style={{ width: '100%' }}>
       <ProductsFilterSidebar />
 
       <div style={{ flex: 1, minWidth: 0 }}>
@@ -126,7 +126,7 @@ export default function ProductsListClient({ initialProducts }: ProductsListClie
             <p>{t('noProductsFoundDesc')}</p>
           </div>
         ) : (
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: 16 }}>
+          <div className="responsive-product-grid">
             {paginatedProducts.map(product => (
               <ProductCard key={product.id} product={product} />
             ))}

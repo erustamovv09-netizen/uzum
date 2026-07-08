@@ -86,15 +86,15 @@ export default function Header() {
     { label: t('navKitchen'), href: "/category/kitchen-accessories" },
     { label: t('navAutomotive'), href: "/category/automotive" },
     { label: t('navSports'), href: "/category/sports-accessories" },
-    { label: t('navClothing'), href: "/products" },
-    { label: t('navAccessories'), href: "/category/sunglasses" },
+    { label: t('navClothing'), href: "/category/clothing" },
+    { label: t('navAccessories'), href: "/category/accessories" },
   ];
 
   return (
     <header style={{ position: 'sticky', top: 0, zIndex: 100, background: '#fff' }}>
 
       {/* ── TOP BAR ─────────────────────────────────────────────────────────── */}
-      <div style={{ background: '#fff', borderBottom: '1px solid var(--uzum-gray-200)' }}>
+      <div className="header-top-bar" style={{ background: '#fff', borderBottom: '1px solid var(--uzum-gray-200)' }}>
         <div style={{ maxWidth: 1240, margin: '0 auto', padding: '0 16px', height: 36, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
           {/* Left: location */}
           <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
@@ -213,10 +213,10 @@ export default function Header() {
 
       {/* ── MAIN HEADER ─────────────────────────────────────────────────────── */}
       <div style={{ borderBottom: '1px solid var(--uzum-gray-200)', background: '#fff' }}>
-        <div style={{ maxWidth: 1240, margin: '0 auto', padding: '0 16px', height: 64, display: 'flex', alignItems: 'center', gap: 14 }}>
+        <div className="header-main-row" style={{ maxWidth: 1240, margin: '0 auto', padding: '0 16px', height: 64, display: 'flex', alignItems: 'center', gap: 14 }}>
 
           {/* Logo */}
-          <Link href="/" style={{ textDecoration: 'none', flexShrink: 0, marginRight: 4 }}>
+          <Link href="/" className="header-logo-container" style={{ textDecoration: 'none', flexShrink: 0, marginRight: 4 }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
               <img
                 src="https://yt3.googleusercontent.com/VrLVt-BzggpF0KX98EZRKHe0VDlJgJQUSW7IlPLfqMJR_xiMxNAZsmQFZezzUg6lG7tINr_vGtw=s900-c-k-c0x00ffffff-no-rj"
@@ -239,7 +239,7 @@ export default function Header() {
           </Link>
 
           {/* Katalog */}
-          <div style={{ position: 'relative', flexShrink: 0 }}>
+          <div className="hide-on-mobile" style={{ position: 'relative', flexShrink: 0 }}>
             <button
               onClick={() => setCatalogOpen(!catalogOpen)}
               style={{
@@ -268,12 +268,12 @@ export default function Header() {
                 {[
                   { key: 'navElectronics', label: 'Elektronika', href: '/category/smartphones' },
                   { key: 'navAppliances', label: 'Maishiy texnika', href: '/category/laptops' },
-                  { key: 'navClothing', label: 'Kiyim-kechak', href: '/products' },
+                  { key: 'navClothing', label: 'Kiyim-kechak', href: '/category/clothing' },
                   { key: 'navFurniture', label: 'Uy va mebel', href: '/category/furniture' },
                   { key: 'beauty', label: "Go'zallik", href: '/category/beauty' },
                   { key: 'navSports', label: 'Sport va turizm', href: '/category/sports-accessories' },
                   { key: 'navGroceries', label: 'Oziq-ovqat', href: '/category/groceries' },
-                  { key: 'navAccessories', label: 'Aksessuarlar', href: '/category/sunglasses' },
+                  { key: 'navAccessories', label: 'Aksessuarlar', href: '/category/accessories' },
                 ].map(cat => (
                   <Link key={cat.href} href={cat.href} style={{ textDecoration: 'none' }}>
                     <div
@@ -291,7 +291,7 @@ export default function Header() {
           </div>
 
            {/* Search */}
-          <div ref={searchContainerRef} style={{ flex: 1, position: 'relative' }}>
+          <div ref={searchContainerRef} className="header-search-container" style={{ flex: 1, position: 'relative' }}>
             <form onSubmit={handleSearch}>
               <div style={{
                 display: 'flex', alignItems: 'center', height: 44,
@@ -411,7 +411,7 @@ export default function Header() {
                   <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2" stroke="#1C1C1C" strokeWidth="1.5" strokeLinecap="round"/>
                   <circle cx="12" cy="7" r="4" stroke="#1C1C1C" strokeWidth="1.5"/>
                 </svg>
-                <span style={{ fontWeight: 400 }}>{isAuthenticated ? user?.firstName : t('login')}</span>
+                <span className="hide-on-mobile" style={{ fontWeight: 400 }}>{isAuthenticated ? user?.firstName : t('login')}</span>
               </button>
 
               {profileOpen && (
@@ -488,7 +488,7 @@ export default function Header() {
                     }}>{wishlistCount}</span>
                   )}
                 </div>
-                {t('wishlist')}
+                <span className="hide-on-mobile">{t('wishlist')}</span>
               </button>
             </Link>
 
@@ -514,7 +514,7 @@ export default function Header() {
                   <line x1="3" y1="6" x2="21" y2="6" stroke="#1C1C1C" strokeWidth="1.5" strokeLinecap="round"/>
                   <path d="M16 10a4 4 0 01-8 0" stroke="#1C1C1C" strokeWidth="1.5" strokeLinecap="round"/>
                 </svg>
-                {t('cart')}
+                <span className="hide-on-mobile">{t('cart')}</span>
               </button>
             </Link>
           </div>

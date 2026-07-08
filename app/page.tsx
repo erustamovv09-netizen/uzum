@@ -7,7 +7,7 @@ import { QuickLinks, SectionHeading } from '@/components/HomeClientHeadings';
 
 function ProductSkeletonList({ count = 10 }: { count?: number }) {
   return (
-    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: 10 }}>
+    <div className="responsive-product-grid">
       {Array(count).fill(0).map((_, i) => (
         <div key={i} style={{ background: 'white', borderRadius: 8, overflow: 'hidden', border: '1px solid var(--uzum-gray-200)' }}>
           <div className="skeleton" style={{ width: '100%', height: 200, borderRadius: 0 }} />
@@ -41,7 +41,7 @@ async function getCachedProducts() {
 async function PopularProducts() {
   const products = await getCachedProducts();
   return (
-    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: 10 }}>
+    <div className="responsive-product-grid">
       {products.slice(0, 10).map(p => (
         <ProductCard key={p.id} product={p} />
       ))}
@@ -52,7 +52,7 @@ async function PopularProducts() {
 async function NewProducts() {
   const products = await getCachedProducts();
   return (
-    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: 10 }}>
+    <div className="responsive-product-grid">
       {products.slice(10, 20).map(p => (
         <ProductCard key={p.id} product={p} />
       ))}
