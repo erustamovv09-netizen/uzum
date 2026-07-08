@@ -298,3 +298,34 @@ body {
     gap: 40px !important;
   }
 }
+
+/* ── RESPONSIVE CART PAGE ─────────────────────────────────────────────── */
+.cart-layout-grid {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 20px !important;
+}
+@media (min-width: 1024px) {
+  .cart-layout-grid {
+    display: grid !important;
+    grid-template-columns: 1fr 360px !important;
+    gap: 24px !important;
+  }
+}
+
+.cart-header {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  margin-bottom: 24px !important;
+  gap: 12px !important;
+}
+.cart-header h1 {
+  font-size: 20px !important;
+  margin: 0 !important;
+}
+@media (min-width: 640px) {
+  .cart-header h1 {
+    font-size: 28px !important;
+  }
+}

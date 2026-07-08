@@ -35,16 +35,16 @@ export default function CartPage() {
   }, 0);
 
   return (
-    <div style={{ maxWidth: 1280, margin: '0 auto', padding: '24px 16px' }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
-        <h1 style={{ fontSize: 28, fontWeight: 800 }}>🛒 {t('cartTitle')} ({state.itemCount} {t('pieces')})</h1>
+    <div style={{ maxWidth: 1280, margin: '0 auto', padding: '24px 16px', boxSizing: 'border-box' }}>
+      <div className="cart-header">
+        <h1>🛒 {t('cartTitle')} ({state.itemCount} {t('pieces')})</h1>
         <button
           onClick={clearCart}
-          style={{ background: 'none', border: 'none', color: '#FF4D00', cursor: 'pointer', fontSize: 14, fontWeight: 600 }}
+          style={{ background: 'none', border: 'none', color: '#FF4D00', cursor: 'pointer', fontSize: 14, fontWeight: 600, flexShrink: 0 }}
         >{t('clearCart')}</button>
       </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 360px', gap: 24 }}>
+      <div className="cart-layout-grid">
         {/* Cart Items */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
           {state.items.map(item => {
