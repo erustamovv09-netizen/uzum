@@ -239,6 +239,10 @@ const TRANSLATIONS: Record<Language, Record<string, string>> = {
     searchTitle: "Qidiruv:",
     resultsFound: "{total} ta natija topildi",
     
+    // Wishlist Page
+    wishlistEmpty: "Sevimlilar ro'yxati bo'sh",
+    wishlistEmptyDesc: "O'zingizga yoqqan mahsulotlarni keyinroq ko'rish uchun ularni yurakcha yordamida qo'shib qo'ying!",
+    
     // Footer
     footerAbout: "Biz haqimizda",
     footerDeliveryPoints: "Topshirish punktlari",
@@ -253,7 +257,7 @@ const TRANSLATIONS: Record<Language, Record<string, string>> = {
     footerPrivacy: "Maxfiylik kelishuvi",
     footerTerms: "Foydalanuvchi kelishuvi",
     footerProcessing: "SHAXSIY MA'LUMOTLARNI QAYTA ISHLASH NIZOMI «UZUM MARKET» MCHJ XK",
-    footerCopyright: "«2026» XK MCH «UZUM MARKET». STIR 309376127. Barcha huquqlar himoyalangan.",
+    footerCopyright: "«2026» XK MCH «UZUM MARKET». STIR 309376127. Barcha huachuklar himoyalangan.",
   },
   ru: {
     // Header
@@ -451,7 +455,7 @@ const TRANSLATIONS: Record<Language, Record<string, string>> = {
     agreeText: "Я согласен с",
     emailLabel: "Электронная почта",
     emailPlaceholder: "email@gmail.com",
-    passwordConfirmLabel: "Подтверждение пароля",
+    passwordConfirmLabel: "Подтверждение покровительства",
     passwordConfirmPlaceholder: "Повторите пароль",
     min8Chars: "Минимум 8 символов",
     
@@ -480,6 +484,10 @@ const TRANSLATIONS: Record<Language, Record<string, string>> = {
     noResultsForQuery: 'По запросу "{query}" ничего не найдено. Попробуйте поискать по-другому.',
     searchTitle: "Поиск:",
     resultsFound: "Найдено {total} результатов",
+    
+    // Wishlist Page
+    wishlistEmpty: "Список избранного пуст",
+    wishlistEmptyDesc: "Добавляйте понравившиеся товары с помощью сердечка, чтобы посмотреть их позже!",
     
     // Footer
     footerAbout: "О нас",

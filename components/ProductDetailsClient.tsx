@@ -12,13 +12,91 @@ interface ProductDetailsClientProps {
   related: Product[];
 }
 
+function getDynamicSpecs(product: Product, t: (key: string) => string, lang: string) {
+  const specs = [
+    { label: t('brand'), value: product.brand || '—' },
+    { label: t('category'), value: t(product.category) || product.category },
+    { label: 'SKU', value: `UZM-${product.id}` },
+  ];
+
+  if (product.category === 'smartphones') {
+    const isApple = product.brand?.toLowerCase().includes('apple') || product.title.toLowerCase().includes('iphone');
+    const isSamsung = product.brand?.toLowerCase().includes('samsung') || product.title.toLowerCase().includes('samsung');
+    
+    if (isApple) {
+      specs.push(
+        { label: lang === 'uz' ? 'Xotira' : 'Встроенная память', value: product.title.includes('Pro') ? '256 GB' : '128 GB' },
+        { label: lang === 'uz' ? 'Operativ xotira' : 'Оперативная память', value: product.title.includes('Pro') ? '6 GB' : '4 GB' },
+        { label: lang === 'uz' ? 'Akkumulyator sig\'imi' : 'Емкость аккумулятора', value: product.title.includes('13') ? '3095 mAh' : '2815 mAh' },
+        { label: lang === 'uz' ? 'Ekran o\'lchami' : 'Диагональ экрана', value: '6.1"' },
+        { label: lang === 'uz' ? 'Ekran turi' : 'Тип матрицы', value: 'Super Retina XDR OLED' },
+        { label: lang === 'uz' ? 'Protsessor' : 'Процессор', value: product.title.includes('13') ? 'Apple A15 Bionic' : 'Apple A14 Bionic' },
+        { label: lang === 'uz' ? 'Kamera' : 'Камера', value: '12 MP + 12 MP + 12 MP' }
+      );
+    } else if (isSamsung) {
+      specs.push(
+        { label: lang === 'uz' ? 'Xotira' : 'Встроенная память', value: '256 GB' },
+        { label: lang === 'uz' ? 'Operativ xotira' : 'Оперативная память', value: '8 GB' },
+        { label: lang === 'uz' ? 'Akkumulyator sig\'imi' : 'Емкость аккумулятора', value: '5000 mAh' },
+        { label: lang === 'uz' ? 'Ekran o\'lchami' : 'Диагональ экрана', value: '6.5"' },
+        { label: lang === 'uz' ? 'Ekran turi' : 'Тип матрицы', value: 'Dynamic AMOLED 2X' },
+        { label: lang === 'uz' ? 'Protsessor' : 'Процессор', value: 'Exynos 2100' },
+        { label: lang === 'uz' ? 'Kamera' : 'Камера', value: '64 MP + 12 MP + 12 MP' }
+      );
+    } else {
+      specs.push(
+        { label: lang === 'uz' ? 'Xotira' : 'Встроенная память', value: '128 GB' },
+        { label: lang === 'uz' ? 'Operativ xotira' : 'Оперативная память', value: '6 GB' },
+        { label: lang === 'uz' ? 'Akkumulyator sig\'imi' : 'Емкость аккумулятора', value: '4500 mAh' },
+        { label: lang === 'uz' ? 'Ekran o\'lchami' : 'Диагональ экрана', value: '6.3"' },
+        { label: lang === 'uz' ? 'Kamera' : 'Камера', value: '48 MP' }
+      );
+    }
+  } else if (product.category === 'laptops') {
+    const isMac = product.title.toLowerCase().includes('macbook') || product.brand?.toLowerCase().includes('apple');
+    if (isMac) {
+      specs.push(
+        { label: lang === 'uz' ? 'Protsessor' : 'Процессор', value: 'Apple M1' },
+        { label: lang === 'uz' ? 'Operativ xotira' : 'Оперативная память', value: '8 GB / 16 GB' },
+        { label: lang === 'uz' ? 'SSD xotira' : 'Накопитель SSD', value: '256 GB / 512 GB' },
+        { label: lang === 'uz' ? 'Ekran o\'lchami' : 'Диагональ экрана', value: '13.3"' },
+        { label: lang === 'uz' ? 'Ekran ruxsati' : 'Разрешение экрана', value: '2560x1600 Retina' },
+        { label: lang === 'uz' ? 'Operatsion tizim' : 'Операционная система', value: 'macOS' }
+      );
+    } else {
+      specs.push(
+        { label: lang === 'uz' ? 'Protsessor' : 'Процессор', value: 'Intel Core i5' },
+        { label: lang === 'uz' ? 'Operativ xotira' : 'Оперативная память', value: '8 GB' },
+        { label: lang === 'uz' ? 'SSD xotira' : 'Накопитель SSD', value: '256 GB' },
+        { label: lang === 'uz' ? 'Ekran o\'lchami' : 'Диагональ экрана', value: '15.6"' },
+        { label: lang === 'uz' ? 'Operatsion tizim' : 'Операционная система', value: 'Windows 11' }
+      );
+    }
+  } else if (product.category === 'groceries') {
+    specs.push(
+      { label: lang === 'uz' ? 'Og\'irligi / Hajmi' : 'Вес / Объем', value: product.title.toLowerCase().includes('milk') ? '1 litr' : '1 kg' },
+      { label: lang === 'uz' ? 'Ishlab chiqarilgan joy' : 'Страна производства', value: 'O\'zbekiston' },
+      { label: lang === 'uz' ? 'Saqlash sharoiti' : 'Условия хранения', value: '+2°C... +6°C' },
+      { label: lang === 'uz' ? 'Muddati' : 'Срок годности', value: '30 kun' }
+    );
+  } else {
+    specs.push(
+      { label: lang === 'uz' ? 'Ishlab chiqarilgan joy' : 'Страна производства', value: 'Xitoy' },
+      { label: lang === 'uz' ? 'Kafolat' : 'Гарантия', value: '14 kun' },
+      { label: lang === 'uz' ? 'Paket tarkibi' : 'Комплектация', value: 'Mahsulot, yo\'riqnoma' }
+    );
+  }
+
+  return specs;
+}
+
 export default function ProductDetailsClient({ product, related }: ProductDetailsClientProps) {
   const [selectedImage, setSelectedImage] = useState(0);
   const [quantity, setQuantity] = useState(1);
   const [activeTab, setActiveTab] = useState<'description' | 'specs' | 'reviews'>('description');
   const { addItem, isInCart, getItemQuantity } = useCart();
   const [addedMsg, setAddedMsg] = useState(false);
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
 
   const discountedPrice = getDiscountedPrice(product.price, product.discountPercentage);
   const inCart = isInCart(product.id);
@@ -249,14 +327,7 @@ export default function ProductDetailsClient({ product, related }: ProductDetail
           <div style={{ background: 'white', borderRadius: 16, padding: 24 }}>
             <table style={{ width: '100%', borderCollapse: 'collapse' }}>
               <tbody>
-                {[
-                  { label: t('brand'), value: product.brand || '—' },
-                  { label: t('category'), value: product.category },
-                  { label: t('rating'), value: `${product.rating}/5` },
-                  { label: t('stock'), value: `${product.stock} ${t('pieces')}` },
-                  { label: 'SKU', value: `UZM-${product.id}` },
-                  { label: t('tags'), value: product.tags?.join(', ') || '—' },
-                ].map((row, i) => (
+                {getDynamicSpecs(product, t, language).map((row, i) => (
                   <tr key={i} style={{ borderBottom: '1px solid #F0F0F0' }}>
                     <td style={{ padding: '12px 0', fontWeight: 600, color: '#404040', width: '40%' }}>{row.label}</td>
                     <td style={{ padding: '12px 0', color: '#1A1A1A' }}>{row.value}</td>

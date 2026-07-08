@@ -6,12 +6,15 @@ import { useRouter } from 'next/navigation';
 import { useCart } from '@/lib/CartContext';
 import { useAuth } from '@/lib/AuthContext';
 import { useLanguage } from '@/lib/LanguageContext';
+import { useWishlist } from '@/lib/WishlistContext';
+import { productsApi, Product } from '@/lib/api';
 
 export default function Header() {
   const router = useRouter();
   const { state: cartState } = useCart();
   const { user, isAuthenticated, logout } = useAuth();
   const { language: selectedLang, setLanguage: setSelectedLang, t } = useLanguage();
+  const { itemCount: wishlistCount } = useWishlist();
   const [searchQuery, setSearchQuery] = useState('');
   const [profileOpen, setProfileOpen] = useState(false);
   const [catalogOpen, setCatalogOpen] = useState(false);
@@ -19,11 +22,14 @@ export default function Header() {
   const [selectedLocation, setSelectedLocation] = useState('Toshkent');
   const [locationOpen, setLocationOpen] = useState(false);
   const [langOpen, setLangOpen] = useState(false);
+  const [suggestions, setSuggestions] = useState<Product[]>([]);
+  const [suggestionsOpen, setSuggestionsOpen] = useState(false);
 
   const profileRef = useRef<HTMLDivElement>(null);
   const moreRef = useRef<HTMLDivElement>(null);
   const locationRef = useRef<HTMLDivElement>(null);
   const langRef = useRef<HTMLDivElement>(null);
+  const searchContainerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
@@ -39,14 +45,36 @@ export default function Header() {
       if (langRef.current && !langRef.current.contains(e.target as Node)) {
         setLangOpen(false);
       }
+      if (searchContainerRef.current && !searchContainerRef.current.contains(e.target as Node)) {
+        setSuggestionsOpen(false);
+      }
     };
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
+  useEffect(() => {
+    if (searchQuery.trim().length < 2) {
+      setSuggestions([]);
+      return;
+    }
+    const timeout = setTimeout(async () => {
+      try {
+        const res = await productsApi.search(searchQuery.trim(), { limit: 5 });
+        setSuggestions(res.products);
+      } catch (err) {
+        console.error(err);
+      }
+    }, 250);
+    return () => clearTimeout(timeout);
+  }, [searchQuery]);
+
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
-    if (searchQuery.trim()) router.push(`/search?q=${encodeURIComponent(searchQuery.trim())}`);
+    if (searchQuery.trim()) {
+      router.push(`/search?q=${encodeURIComponent(searchQuery.trim())}`);
+      setSuggestionsOpen(false);
+    }
   };
 
   const NAV_ITEMS = [
@@ -262,37 +290,107 @@ export default function Header() {
             )}
           </div>
 
-          {/* Search */}
-          <form onSubmit={handleSearch} style={{ flex: 1 }}>
-            <div style={{
-              display: 'flex', alignItems: 'center', height: 44,
-              border: '1px solid var(--uzum-gray-200)', borderRadius: 8, background: 'var(--uzum-gray-100)', overflow: 'hidden',
-              transition: 'border-color 0.2s',
-            }}>
-              <input
-                type="text"
-                value={searchQuery}
-                onChange={e => setSearchQuery(e.target.value)}
-                placeholder={t('searchPlaceholder')}
-                style={{
-                  flex: 1, border: 'none', background: 'transparent',
-                  fontSize: 14, outline: 'none', color: '#1C1C1C',
-                  padding: '0 16px',
-                }}
-                onFocus={e => (e.currentTarget.parentElement as HTMLDivElement).style.borderColor = 'var(--uzum-purple)'}
-                onBlur={e => (e.currentTarget.parentElement as HTMLDivElement).style.borderColor = 'var(--uzum-gray-200)'}
-              />
-              <button type="submit" style={{
-                background: 'transparent', border: 'none', height: '100%',
-                padding: '0 16px', cursor: 'pointer', display: 'flex', alignItems: 'center',
+           {/* Search */}
+          <div ref={searchContainerRef} style={{ flex: 1, position: 'relative' }}>
+            <form onSubmit={handleSearch}>
+              <div style={{
+                display: 'flex', alignItems: 'center', height: 44,
+                border: '1px solid var(--uzum-gray-200)', borderRadius: 8, background: 'var(--uzum-gray-100)', overflow: 'hidden',
+                transition: 'border-color 0.2s',
               }}>
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-                  <circle cx="11" cy="11" r="7" stroke="#717480" strokeWidth="2"/>
-                  <path d="M16.5 16.5L21 21" stroke="#717480" strokeWidth="2" strokeLinecap="round"/>
-                </svg>
-              </button>
-            </div>
-          </form>
+                <input
+                  type="text"
+                  value={searchQuery}
+                  onChange={e => { setSearchQuery(e.target.value); setSuggestionsOpen(true); }}
+                  placeholder={t('searchPlaceholder')}
+                  style={{
+                    flex: 1, border: 'none', background: 'transparent',
+                    fontSize: 14, outline: 'none', color: '#1C1C1C',
+                    padding: '0 16px',
+                  }}
+                  onFocus={e => {
+                    (e.currentTarget.parentElement as HTMLDivElement).style.borderColor = 'var(--uzum-purple)';
+                    setSuggestionsOpen(true);
+                  }}
+                  onBlur={e => {
+                    (e.currentTarget.parentElement as HTMLDivElement).style.borderColor = 'var(--uzum-gray-200)';
+                  }}
+                />
+                <button type="submit" style={{
+                  background: 'transparent', border: 'none', height: '100%',
+                  padding: '0 16px', cursor: 'pointer', display: 'flex', alignItems: 'center',
+                }}>
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                    <circle cx="11" cy="11" r="7" stroke="#717480" strokeWidth="2"/>
+                    <path d="M16.5 16.5L21 21" stroke="#717480" strokeWidth="2" strokeLinecap="round"/>
+                  </svg>
+                </button>
+              </div>
+            </form>
+
+            {/* Suggestions Dropdown */}
+            {suggestionsOpen && suggestions.length > 0 && (
+              <div style={{
+                position: 'absolute', top: 'calc(100% + 6px)', left: 0, right: 0,
+                background: 'white', borderRadius: 12, padding: '8px 0',
+                boxShadow: '0 8px 32px rgba(0,0,0,0.15)', zIndex: 300,
+                border: '1px solid var(--uzum-gray-200)',
+                display: 'flex', flexDirection: 'column',
+              }}>
+                {suggestions.map(p => (
+                  <Link
+                    key={p.id}
+                    href={`/product/${p.id}`}
+                    style={{ textDecoration: 'none' }}
+                    onClick={() => { setSuggestionsOpen(false); setSearchQuery(''); }}
+                  >
+                    <div
+                      style={{
+                        display: 'flex', alignItems: 'center', gap: 12,
+                        padding: '10px 16px', cursor: 'pointer', transition: 'background 0.2s',
+                      }}
+                      onMouseEnter={e => (e.currentTarget.style.background = 'var(--uzum-gray-100)')}
+                      onMouseLeave={e => (e.currentTarget.style.background = 'transparent')}
+                    >
+                      <img
+                        src={p.thumbnail}
+                        alt={p.title}
+                        style={{ width: 36, height: 36, borderRadius: 6, objectFit: 'cover', background: '#F8F8F8' }}
+                      />
+                      <div style={{ flex: 1, minWidth: 0 }}>
+                        <div style={{ fontSize: 13, fontWeight: 500, color: '#1C1C1C', textOverflow: 'ellipsis', overflow: 'hidden', whiteSpace: 'nowrap' }}>
+                          {p.title}
+                        </div>
+                        <div style={{ fontSize: 11, color: '#808080', marginTop: 2 }}>
+                          {p.category}
+                        </div>
+                      </div>
+                      <div style={{ fontSize: 13, fontWeight: 700, color: '#7000FF', flexShrink: 0 }}>
+                        {Math.round(p.price * 12700).toLocaleString('uz-UZ')} so'm
+                      </div>
+                    </div>
+                  </Link>
+                ))}
+                <div style={{ borderTop: '1px solid var(--uzum-gray-200)', margin: '6px 0' }} />
+                <div
+                  onClick={() => {
+                    if (searchQuery.trim()) {
+                      router.push(`/search?q=${encodeURIComponent(searchQuery.trim())}`);
+                      setSuggestionsOpen(false);
+                    }
+                  }}
+                  style={{
+                    padding: '8px 16px', fontSize: 13, color: '#7000FF', fontWeight: 600,
+                    cursor: 'pointer', textAlign: 'center', transition: 'background 0.2s',
+                  }}
+                  onMouseEnter={e => (e.currentTarget.style.background = 'var(--uzum-purple-light)')}
+                  onMouseLeave={e => (e.currentTarget.style.background = 'transparent')}
+                >
+                  Barcha natijalarni ko'rish →
+                </div>
+              </div>
+            )}
+          </div>
 
           {/* Right actions */}
           <div style={{ display: 'flex', alignItems: 'center', gap: 4, flexShrink: 0 }}>
@@ -377,9 +475,19 @@ export default function Header() {
                 onMouseEnter={e => (e.currentTarget as HTMLButtonElement).style.background = 'var(--uzum-gray-100)'}
                 onMouseLeave={e => (e.currentTarget as HTMLButtonElement).style.background = 'transparent'}
               >
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-                  <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" stroke="#1C1C1C" strokeWidth="1.5" fill="none"/>
-                </svg>
+                <div style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill={wishlistCount > 0 ? '#FF1A8C' : 'none'}>
+                    <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" stroke={wishlistCount > 0 ? '#FF1A8C' : '#1C1C1C'} strokeWidth="1.5" />
+                  </svg>
+                  {wishlistCount > 0 && (
+                    <span style={{
+                      position: 'absolute', top: -6, right: -6,
+                      background: '#FF1A8C', color: 'white', fontSize: 10,
+                      fontWeight: 700, borderRadius: '50%', width: 14, height: 14,
+                      display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    }}>{wishlistCount}</span>
+                  )}
+                </div>
                 {t('wishlist')}
               </button>
             </Link>

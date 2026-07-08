@@ -6,6 +6,7 @@ import Image from 'next/image';
 import { Product, formatPrice, getDiscountedPrice } from '@/lib/api';
 import { useCart } from '@/lib/CartContext';
 import { useLanguage } from '@/lib/LanguageContext';
+import { useWishlist } from '@/lib/WishlistContext';
 
 interface ProductCardProps {
   product: Product;
@@ -14,10 +15,11 @@ interface ProductCardProps {
 export default function ProductCard({ product }: ProductCardProps) {
   const { addItem, isInCart, getItemQuantity } = useCart();
   const { t } = useLanguage();
+  const { toggleWishlist, isInWishlist } = useWishlist();
   const [imgError, setImgError] = useState(false);
   const [isAdding, setIsAdding] = useState(false);
-  const [wishlist, setWishlist] = useState(false);
 
+  const wishlist = isInWishlist(product.id);
   const discountedPrice = getDiscountedPrice(product.price, product.discountPercentage);
   const inCart = isInCart(product.id);
   const qty = getItemQuantity(product.id);
@@ -76,7 +78,7 @@ export default function ProductCard({ product }: ProductCardProps) {
 
           {/* Wishlist button — top right */}
           <button
-            onClick={e => { e.preventDefault(); e.stopPropagation(); setWishlist(!wishlist); }}
+            onClick={e => { e.preventDefault(); e.stopPropagation(); toggleWishlist(product); }}
             style={{
               position: 'absolute', top: 6, right: 6,
               width: 28, height: 28, borderRadius: '50%',

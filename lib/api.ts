@@ -106,30 +106,275 @@ async function apiFetch<T>(endpoint: string, options?: RequestInit): Promise<T> 
   return response.json();
 }
 
+function adjustProductPrice(product: Product): Product {
+  if (product.category === 'groceries') {
+    // 10x cheaper for groceries to match local Uzbek market pricing (e.g. 2,000 - 5,000 UZS)
+    return { ...product, price: product.price * 0.1 };
+  }
+  if (product.category === 'beauty' || product.category === 'skincare' || product.category === 'fragrances') {
+    // 3x cheaper for beauty/cosmetics
+    return { ...product, price: product.price * 0.3 };
+  }
+  // 2x cheaper for all other items to match competitive local market prices
+  return { ...product, price: product.price * 0.5 };
+}
+
+export const MOCK_REDMI_PRODUCTS: Product[] = [
+  {
+    id: 99001,
+    title: "Xiaomi Redmi Note 13 Pro",
+    description: "Xiaomi Redmi Note 13 Pro 8/256 GB smartfoni. 200 MP ultra-tiniq kamera, 120Hz AMOLED ekran, 5000 mAh batareya va 67W tezkor quvvatlash.",
+    price: 350,
+    discountPercentage: 12.5,
+    rating: 4.85,
+    stock: 45,
+    brand: "Xiaomi",
+    category: "smartphones",
+    thumbnail: "https://images.unsplash.com/photo-1598327105666-5b89351aff97?q=80&w=600&auto=format&fit=crop",
+    images: [
+      "https://images.unsplash.com/photo-1598327105666-5b89351aff97?q=80&w=600&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?q=80&w=600&auto=format&fit=crop"
+    ]
+  },
+  {
+    id: 99002,
+    title: "Xiaomi Redmi 13C",
+    description: "Xiaomi Redmi 13C 4/128 GB. Katta 6.74 dyuymli 90Hz displey, 50 MP asosiy kamera, 5000 mAh batareya va zamonaviy dizayn.",
+    price: 180,
+    discountPercentage: 8,
+    rating: 4.65,
+    stock: 85,
+    brand: "Xiaomi",
+    category: "smartphones",
+    thumbnail: "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?q=80&w=600&auto=format&fit=crop",
+    images: [
+      "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?q=80&w=600&auto=format&fit=crop"
+    ]
+  },
+  {
+    id: 99003,
+    title: "Xiaomi 14 Ultra",
+    description: "Flagman smartfon Xiaomi 14 Ultra 16/512 GB. Professional Leica optikasi, Snapdragon 8 Gen 3 protsessori, 120W ultra tezkor quvvatlash va simsiz quvvatlash.",
+    price: 1400,
+    discountPercentage: 5,
+    rating: 4.98,
+    stock: 12,
+    brand: "Xiaomi",
+    category: "smartphones",
+    thumbnail: "https://images.unsplash.com/photo-1605787020600-b9ebd5df1d07?q=80&w=600&auto=format&fit=crop",
+    images: [
+      "https://images.unsplash.com/photo-1605787020600-b9ebd5df1d07?q=80&w=600&auto=format&fit=crop"
+    ]
+  },
+  {
+    id: 99004,
+    title: "Xiaomi Redmi Buds 5 Pro",
+    description: "Faol shovqinni bekor qiluvchi (ANC) simsiz quloqchinlar. 38 soatgacha batareya quvvati, Hi-Res audio va qulay dizayn.",
+    price: 90,
+    discountPercentage: 15,
+    rating: 4.78,
+    stock: 150,
+    brand: "Xiaomi",
+    category: "smartphones",
+    thumbnail: "https://images.unsplash.com/photo-1590658268037-6bf12165a8df?q=80&w=600&auto=format&fit=crop",
+    images: [
+      "https://images.unsplash.com/photo-1590658268037-6bf12165a8df?q=80&w=600&auto=format&fit=crop"
+    ]
+  },
+  {
+    id: 99005,
+    title: "Xiaomi Redmi Watch 4",
+    description: "Aqlli soat Redmi Watch 4. 1.97 dyuymli AMOLED ekran, GPS, qon kislorodi (SpO2) o'lchagich, 20 kungacha batareya quvvati.",
+    price: 120,
+    discountPercentage: 10,
+    rating: 4.7,
+    stock: 90,
+    brand: "Xiaomi",
+    category: "smartphones",
+    thumbnail: "https://images.unsplash.com/photo-1508685096489-7aacd43bd3b1?q=80&w=600&auto=format&fit=crop",
+    images: [
+      "https://images.unsplash.com/photo-1508685096489-7aacd43bd3b1?q=80&w=600&auto=format&fit=crop"
+    ]
+  }
+];
+
+function translateSearchQuery(q: string): string {
+  const query = q.toLowerCase().trim();
+  const dictionary: Record<string, string> = {
+    'telefon': 'phone',
+    'telefonlar': 'phone',
+    'smartfon': 'smartphone',
+    'smartfonlar': 'smartphone',
+    'телефон': 'phone',
+    'телефоны': 'phone',
+    'смартфон': 'smartphone',
+    'смартфоны': 'smartphone',
+    'noutbuk': 'laptop',
+    'noutbuklar': 'laptop',
+    'kompyuter': 'laptop',
+    'kompyuterlar': 'laptop',
+    'ноутбук': 'laptop',
+    'ноутбуки': 'laptop',
+    'компьютер': 'laptop',
+    'компьютеры': 'laptop',
+    'olma': 'apple',
+    'яблоко': 'apple',
+    'яблоки': 'apple',
+    'sut': 'milk',
+    'молоко': 'milk',
+    'non': 'bread',
+    'хлеб': 'bread',
+    'oziq': 'grocery',
+    'oziq-ovqat': 'grocery',
+    'продукты': 'grocery',
+    'еда': 'grocery',
+    'avto': 'automotive',
+    'avtomobil': 'automotive',
+    'mashina': 'automotive',
+    'авто': 'automotive',
+    'машина': 'automotive',
+    'kiyim': 'clothing',
+    'kiyimlar': 'clothing',
+    'ko\'ylak': 'dress',
+    'ko\'ylaklar': 'dress',
+    'одежда': 'clothing',
+    'платье': 'dress',
+    'платья': 'dress',
+    'poyabzal': 'shoes',
+    'tufli': 'shoes',
+    'krossovka': 'sneaker',
+    'krossovkalar': 'sneaker',
+    'обувь': 'shoes',
+    'туфли': 'shoes',
+    'кроссовки': 'sneaker',
+    'mebel': 'furniture',
+    'mebellar': 'furniture',
+    'stol': 'table',
+    'stul': 'chair',
+    'мебель': 'furniture',
+    'стол': 'table',
+    'стул': 'chair',
+    'soat': 'watch',
+    'soatlar': 'watch',
+    'часы': 'watch',
+    'ko\'zoynak': 'sunglasses',
+    'ochki': 'sunglasses',
+    'очки': 'sunglasses',
+    'sumka': 'bag',
+    'sumkalar': 'bag',
+    'сумка': 'bag',
+    'сумки': 'bag',
+    'atir': 'fragrance',
+    'duxi': 'fragrance',
+    'parfumeriya': 'fragrance',
+    'парфюм': 'fragrance',
+    'духи': 'fragrance',
+    'kosmetika': 'beauty',
+    'pomada': 'lipstick',
+    'косметика': 'beauty',
+    'помада': 'lipstick',
+    'redmi': 'phone',
+    'xiaomi': 'phone',
+    'mi': 'phone',
+  };
+
+  if (dictionary[query]) return dictionary[query];
+
+  for (const [key, val] of Object.entries(dictionary)) {
+    if (query.includes(key) || key.includes(query)) {
+      return val;
+    }
+  }
+
+  return q;
+}
+
 // Products API
 export const productsApi = {
-  getAll: (params?: { limit?: number; skip?: number; category?: string }) => {
+  getAll: async (params?: { limit?: number; skip?: number; category?: string }) => {
     const query = new URLSearchParams();
     if (params?.limit) query.set('limit', String(params.limit));
     if (params?.skip) query.set('skip', String(params.skip));
     const qs = query.toString();
-    return apiFetch<PaginatedProducts>(`/products${qs ? `?${qs}` : ''}`);
+    const data = await apiFetch<PaginatedProducts>(`/products${qs ? `?${qs}` : ''}`);
+    
+    let products = data.products.map(adjustProductPrice);
+    if (!params?.skip || params.skip === 0) {
+      const mocks = MOCK_REDMI_PRODUCTS.map(adjustProductPrice);
+      products = [...mocks, ...products];
+    }
+    
+    return {
+      ...data,
+      products: products.slice(0, params?.limit || products.length),
+      total: data.total + MOCK_REDMI_PRODUCTS.length,
+    };
   },
 
-  getById: (id: number) => apiFetch<Product>(`/products/${id}`),
+  getById: async (id: number) => {
+    const mockProduct = MOCK_REDMI_PRODUCTS.find(p => p.id === id);
+    if (mockProduct) {
+      return adjustProductPrice(mockProduct);
+    }
+    const product = await apiFetch<Product>(`/products/${id}`);
+    return adjustProductPrice(product);
+  },
 
-  getByCategory: (category: string, params?: { limit?: number; skip?: number }) => {
+  getByCategory: async (category: string, params?: { limit?: number; skip?: number }) => {
     const query = new URLSearchParams();
     if (params?.limit) query.set('limit', String(params.limit));
     if (params?.skip) query.set('skip', String(params.skip));
     const qs = query.toString();
-    return apiFetch<PaginatedProducts>(`/products/category/${category}${qs ? `?${qs}` : ''}`);
+    const data = await apiFetch<PaginatedProducts>(`/products/category/${category}${qs ? `?${qs}` : ''}`);
+    
+    let products = data.products.map(adjustProductPrice);
+    if (category === 'smartphones') {
+      const mockSmartphones = MOCK_REDMI_PRODUCTS.filter(p => p.category === 'smartphones').map(adjustProductPrice);
+      products = [...mockSmartphones, ...products];
+    }
+    
+    return {
+      ...data,
+      products,
+      total: data.total + (category === 'smartphones' ? MOCK_REDMI_PRODUCTS.filter(p => p.category === 'smartphones').length : 0),
+    };
   },
 
-  search: (q: string, params?: { limit?: number }) => {
-    const query = new URLSearchParams({ q });
+  search: async (q: string, params?: { limit?: number }) => {
+    const cleanQ = q.toLowerCase().trim();
+    const matchedMocks = MOCK_REDMI_PRODUCTS.filter(p => 
+      p.title.toLowerCase().includes(cleanQ) || 
+      p.description.toLowerCase().includes(cleanQ) ||
+      cleanQ.includes('redmi') || cleanQ.includes('xiaomi') || cleanQ.includes('mi')
+    );
+
+    const translatedQuery = translateSearchQuery(q);
+    const query = new URLSearchParams({ q: translatedQuery });
     if (params?.limit) query.set('limit', String(params.limit));
-    return apiFetch<SearchResult>(`/products/search?${query.toString()}`);
+    
+    let apiData: SearchResult = { products: [], total: 0 };
+    try {
+      apiData = await apiFetch<SearchResult>(`/products/search?${query.toString()}`);
+    } catch (e) {
+      console.error(e);
+    }
+
+    const combinedProducts = [
+      ...matchedMocks.map(adjustProductPrice),
+      ...apiData.products.map(adjustProductPrice).filter(p => !matchedMocks.some(m => m.id === p.id))
+    ];
+
+    const finalProducts = (cleanQ.includes('redmi') || cleanQ.includes('xiaomi') || cleanQ.includes('mi')) 
+      ? combinedProducts.filter(p => p.brand.toLowerCase() === 'xiaomi' || p.title.toLowerCase().includes('xiaomi') || p.title.toLowerCase().includes('redmi'))
+      : combinedProducts;
+
+    const results = finalProducts.length > 0 ? finalProducts : combinedProducts;
+
+    return {
+      ...apiData,
+      products: results.slice(0, params?.limit || 30),
+      total: results.length,
+    };
   },
 };
 
