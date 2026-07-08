@@ -29,12 +29,24 @@ export default function BannerCarousel() {
         const badgeTxt = badgeParts[1] || '';
 
         return (
-          <Link key={b.id} href={b.href} style={{ textDecoration: 'none' }}>
-            <div style={{
-              position: 'absolute', inset: 0,
-              background: b.bg,
+          <Link 
+            key={b.id} 
+            href={b.href} 
+            style={{ 
+              textDecoration: 'none',
+              position: 'absolute',
+              inset: 0,
               opacity: i === banner ? 1 : 0,
-              transition: 'opacity 0.7s ease',
+              transition: 'opacity 0.7s ease, visibility 0.7s ease',
+              pointerEvents: i === banner ? 'auto' : 'none',
+              zIndex: i === banner ? 2 : 1,
+              visibility: i === banner ? 'visible' : 'hidden',
+            }}
+          >
+            <div style={{
+              width: '100%',
+              height: '100%',
+              background: b.bg,
               display: 'flex', alignItems: 'center',
               padding: '0 60px',
               cursor: 'pointer',

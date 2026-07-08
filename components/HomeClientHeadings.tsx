@@ -37,12 +37,27 @@ export function QuickLinks() {
 
 export function SectionHeading({ titleKey, defaultText }: { titleKey: string; defaultText: string }) {
   const { t } = useLanguage();
+  const [hovered, setHovered] = React.useState(false);
+  
   return (
-    <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 16 }}>
-      <h2 style={{ fontSize: 22, fontWeight: 700, color: '#1C1C1C', margin: 0 }}>{t(titleKey) || defaultText}</h2>
-      <svg width="8" height="14" viewBox="0 0 8 14" fill="none">
-        <path d="M1 1l6 6-6 6" stroke="#1C1C1C" strokeWidth="2" strokeLinecap="round"/>
+    <Link 
+      href="/products" 
+      style={{ display: 'inline-flex', alignItems: 'center', gap: 8, marginBottom: 16, textDecoration: 'none', cursor: 'pointer' }}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+    >
+      <h2 style={{ fontSize: 22, fontWeight: 700, color: hovered ? 'var(--uzum-purple)' : '#1C1C1C', margin: 0, transition: 'color 0.15s' }}>
+        {t(titleKey) || defaultText}
+      </h2>
+      <svg 
+        width="8" 
+        height="14" 
+        viewBox="0 0 8 14" 
+        fill="none" 
+        style={{ transform: hovered ? 'translateX(4px)' : 'none', transition: 'transform 0.15s' }}
+      >
+        <path d="M1 1l6 6-6 6" stroke={hovered ? 'var(--uzum-purple)' : '#1C1C1C'} strokeWidth="2" strokeLinecap="round"/>
       </svg>
-    </div>
+    </Link>
   );
 }
