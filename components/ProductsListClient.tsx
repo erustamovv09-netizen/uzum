@@ -96,7 +96,7 @@ export default function ProductsListClient({ initialProducts }: ProductsListClie
 
       <div style={{ flex: 1, minWidth: 0 }}>
         {/* Header */}
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
+        <div className="products-header">
           <div>
             <h1 style={{ fontSize: 24, fontWeight: 800, color: '#1A1A1A' }}>{t('allProducts')}</h1>
             <p style={{ fontSize: 14, color: '#808080', marginTop: 4 }}>

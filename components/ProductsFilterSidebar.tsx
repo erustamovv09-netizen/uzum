@@ -68,7 +68,7 @@ export default function ProductsFilterSidebar() {
   };
 
   return (
-    <aside style={{ width: 260, flexShrink: 0 }}>
+    <aside className="products-sidebar" style={{ flexShrink: 0 }}>
       <div style={{ background: 'white', borderRadius: 16, padding: 20, border: '1px solid #F0F0F0', position: 'sticky', top: 90 }}>
         <h3 style={{ fontSize: 18, fontWeight: 700, marginBottom: 20, color: '#1A1A1A' }}>🔧 {t('filters')}</h3>
 
@@ -101,7 +101,7 @@ export default function ProductsFilterSidebar() {
               onBlur={handleApplyPrice}
               placeholder={t('from')}
               style={{
-                flex: 1, border: '1.5px solid #E0E0E0', borderRadius: 10,
+                flex: 1, minWidth: 0, border: '1.5px solid #E0E0E0', borderRadius: 10,
                 padding: '8px 12px', fontSize: 14, outline: 'none',
               }}
             />
@@ -113,7 +113,7 @@ export default function ProductsFilterSidebar() {
               onBlur={handleApplyPrice}
               placeholder={t('to')}
               style={{
-                flex: 1, border: '1.5px solid #E0E0E0', borderRadius: 10,
+                flex: 1, minWidth: 0, border: '1.5px solid #E0E0E0', borderRadius: 10,
                 padding: '8px 12px', fontSize: 14, outline: 'none',
               }}
             />
