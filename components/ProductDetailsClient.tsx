@@ -145,6 +145,7 @@ export default function ProductDetailsClient({ product, related }: ProductDetail
               fill
               style={{ objectFit: 'contain', padding: 16 }}
               sizes="50vw"
+              referrerPolicy="no-referrer"
             />
             {product.discountPercentage > 5 && (
               <div style={{
@@ -169,7 +170,7 @@ export default function ProductDetailsClient({ product, related }: ProductDetail
                   background: '#F8F8F8', cursor: 'pointer', flexShrink: 0, position: 'relative',
                 }}
               >
-                <Image src={img} alt={`${product.title} ${i + 1}`} fill style={{ objectFit: 'cover' }} />
+                <Image src={img} alt={`${product.title} ${i + 1}`} fill style={{ objectFit: 'cover' }} referrerPolicy="no-referrer" />
               </button>
             ))}
           </div>

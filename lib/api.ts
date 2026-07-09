@@ -106,17 +106,272 @@ async function apiFetch<T>(endpoint: string, options?: RequestInit): Promise<T> 
   return response.json();
 }
 
+function translateText(text: string): string {
+  if (!text) return text;
+  let t = text;
+
+  // Regex rules for general translations of words
+  const replacements: [RegExp, string][] = [
+    // Phrases
+    [/\bpower bank\b/gi, "tashqi akkumulyator (power bank)"],
+    [/\bpowerbank\b/gi, "tashqi akkumulyator (power bank)"],
+    [/\bsunglasses\b/gi, "quyosh ko'zoynaklari"],
+    [/\bsun glasses\b/gi, "quyosh ko'zoynaklari"],
+    [/\bglass frame\b/gi, "ko'zoynak ramkasi"],
+    [/\bt-shirt\b/gi, "futbolka"],
+    [/\btennis racket\b/gi, "tennis raketkasi"],
+    [/\bsports shoes\b/gi, "sport poyabzali"],
+    [/\brunning shoes\b/gi, "yugurish poyabzali"],
+    [/\bcasual shoes\b/gi, "kundalik poyabzal"],
+    [/\bhigh heels\b/gi, "poshnali tufli"],
+    [/\bleather sneakers\b/gi, "charm krossovkalar"],
+    [/\bslip-on\b/gi, "slipon poyabzali"],
+    [/\bcat food\b/gi, "mushuklar uchun ozuqa"],
+    [/\bdog food\b/gi, "kuchuklar uchun ozuqa"],
+    [/\bcooking oil\b/gi, "o'simlik yog'i"],
+    [/\bchicken breast\b/gi, "tovuq filesi"],
+    [/\bfish steak\b/gi, "baliq filesi (steyk)"],
+    [/\boil filter\b/gi, "moy filtri"],
+    [/\bwiper blades\b/gi, "oyna tozalagichlar (dvorniklar)"],
+    [/\bcar holder\b/gi, "avtomobil ushlagichi"],
+    [/\bmotorcycle helmet\b/gi, "mototsikl kaski (shlemi)"],
+    
+    // Nouns
+    [/\bsmartphone\b/gi, "smartfon"],
+    [/\bphone\b/gi, "telefon"],
+    [/\blayout\b/gi, "maketi"],
+    [/\blaptops\b/gi, "noutbuklar"],
+    [/\blaptop\b/gi, "noutbuk"],
+    [/\bcomputer\b/gi, "kompyuter"],
+    [/\bwatches\b/gi, "soatlar"],
+    [/\bwatch\b/gi, "soat"],
+    [/\bsmartwatch\b/gi, "aqlli soat"],
+    [/\bheadphones\b/gi, "quloqchinlar"],
+    [/\bearphones\b/gi, "quloqchinlar"],
+    [/\bheadset\b/gi, "quloqchinlar"],
+    [/\bspeaker\b/gi, "kolonka (dinamik)"],
+    [/\bmouse\b/gi, "sichqoncha"],
+    [/\bkeyboard\b/gi, "klaviatura"],
+    [/\bcamera\b/gi, "kamera"],
+    [/\blens\b/gi, "obyektiv"],
+    [/\btripod\b/gi, "shtativ"],
+    [/\bbag\b/gi, "sumka"],
+    [/\bbackpack\b/gi, "ryukzak"],
+    [/\bhandbag\b/gi, "qo'l sumkasi"],
+    [/\bpurse\b/gi, "hamyon (sumka)"],
+    [/\bjewelry\b/gi, "taqinchoq"],
+    [/\bnecklace\b/gi, "marjon"],
+    [/\bring\b/gi, "uzuk"],
+    [/\bbracelet\b/gi, "bilaguzuk"],
+    [/\bearrings\b/gi, "ziraklar"],
+    
+    // Clothing
+    [/\bshirt\b/gi, "ko'ylak"],
+    [/\bdress\b/gi, "ko'ylak (libos)"],
+    [/\bpants\b/gi, "shim"],
+    [/\btrousers\b/gi, "shim"],
+    [/\bjeans\b/gi, "jinsi shim"],
+    [/\bjacket\b/gi, "kurtka"],
+    [/\bcoat\b/gi, "palto"],
+    [/\bsweater\b/gi, "sviter"],
+    [/\bsocks\b/gi, "paypoqlar"],
+    [/\bshoes\b/gi, "poyabzal"],
+    [/\bsneakers\b/gi, "krossovkalar"],
+    [/\bboots\b/gi, "etiklar"],
+    [/\bsandals\b/gi, "sandallar"],
+    [/\bhoodie\b/gi, "xudi (kofta)"],
+    
+    // Home/Furniture
+    [/\bbed\b/gi, "karavot"],
+    [/\bsofa\b/gi, "divan"],
+    [/\bchair\b/gi, "stul"],
+    [/\btable\b/gi, "stol"],
+    [/\bcabinet\b/gi, "shkaf"],
+    [/\bwardrobe\b/gi, "shkaf (garderob)"],
+    [/\blamp\b/gi, "lampa (chiroq)"],
+    [/\bmirror\b/gi, "ko'zgu"],
+    [/\bpillow\b/gi, "yostiq"],
+    [/\bcushion\b/gi, "yostiqcha"],
+    [/\brug\b/gi, "gilam"],
+    
+    // Auto
+    [/\bcar\b/gi, "avtomobil"],
+    [/\bmotorcycle\b/gi, "mototsikl"],
+    [/\btires\b/gi, "shinalar"],
+    [/\btyre\b/gi, "shina"],
+    [/\bkey\b/gi, "kalit"],
+    [/\bengine\b/gi, "motor (dvigatel)"],
+    
+    // Groceries
+    [/\bbanana\b/gi, "banan"],
+    [/\blemon\b/gi, "limon"],
+    [/\bgrape\b/gi, "uzum"],
+    [/\bkiwi\b/gi, "kivi"],
+    [/\bpineapple\b/gi, "ananas"],
+    [/\btomato\b/gi, "pomidor"],
+    [/\bonion\b/gi, "piyoz"],
+    [/\bgarlic\b/gi, "sarimsoq"],
+    [/\bcarrot\b/gi, "sabzi"],
+    [/\bcheese\b/gi, "pishloq"],
+    [/\bbutter\b/gi, "sariyog'"],
+    [/\byogurt\b/gi, "yogurt"],
+    [/\byoghurt\b/gi, "yogurt"],
+    [/\bjuice\b/gi, "sharbat"],
+    [/\btea\b/gi, "choy"],
+    [/\bcoffee\b/gi, "qahva"],
+    [/\bchocolate\b/gi, "shokolad"],
+    [/\bconfectionery\b/gi, "shirinliklar"],
+    
+    // Adjectives / Attributes
+    [/\bmen's\b/gi, "erkaklar"],
+    [/\bmens\b/gi, "erkaklar"],
+    [/\bwomen's\b/gi, "ayollar"],
+    [/\bwomens\b/gi, "ayollar"],
+    [/\bladies\b/gi, "ayollar"],
+    [/\bkids\b/gi, "bolalar"],
+    [/\bchildren's\b/gi, "bolalar"],
+    [/\bsports\b/gi, "sport"],
+    [/\bsport\b/gi, "sport"],
+    [/\bleather\b/gi, "charm"],
+    [/\bwooden\b/gi, "yog'ochli"],
+    [/\bwood\b/gi, "yog'och"],
+    [/\bgolden\b/gi, "oltin (tilla)"],
+    [/\bgold\b/gi, "oltin"],
+    [/\bsilver\b/gi, "kumush"],
+    [/\bsilicon\b/gi, "silikon"],
+    [/\bsilicone\b/gi, "silikon"],
+    [/\bglass\b/gi, "shisha (oyna)"],
+    [/\bplastic\b/gi, "plastik"],
+    [/\borganic\b/gi, "tabiiy"],
+    [/\bwireless\b/gi, "simsiz"],
+    [/\bwired\b/gi, "simli"],
+    [/\bportable\b/gi, "ko'chma (portativ)"],
+    [/\bwaterproof\b/gi, "suv o'tkazmaydigan"],
+    [/\belectric\b/gi, "elektr"],
+    [/\bdigital\b/gi, "raqamli"],
+    [/\bsmart\b/gi, "aqlli"],
+  ];
+
+  for (const [regex, replacement] of replacements) {
+    t = t.replace(regex, replacement);
+  }
+
+  return t;
+}
+
+function translateProductToUzbek(product: Product): Product {
+  const titleDict: Record<string, string> = {
+    "Essence Mascara Lash Princess": "Kipriklar uchun tush Essence Mascara",
+    "Eyeshadow Palette with Mirror": "Ko'z soyalari palitrasi (ko'zguli)",
+    "Powder Canister": "Kosmetik pudra idishi",
+    "Red Lipstick": "Qizil lab bo'yog'i (pomada)",
+    "Red Nail Polish": "Qizil tirnoq bo'yog'i (lak)",
+    "Calvin Klein CK One": "Calvin Klein CK One uniseks atiri",
+    "Chanel Coco Mademoiselle": "Chanel Coco Mademoiselle ayollar atiri",
+    "Gucci Guilty Eau de Parfum": "Gucci Guilty Eau de Parfum atiri",
+    "Perfume Oil": "Konsentrlangan atir moyi",
+    "Brown Perfume": "Premium jigarrang atir",
+    "Dior Fahrenheit": "Dior Fahrenheit erkaklar atiri",
+    "Annibale Colombo Bed": "Annibale Colombo hashamatli karavot",
+    "Annibale Colombo Sofa": "Annibale Colombo hashamatli charm divan",
+    "Bedside Table": "Karavot yonidagi tumba (stol)",
+    "Knoll Saarinen Executive Chair": "Knoll Saarinen ofis stuli",
+    "Wooden Banister": "Yog'och panjara (zina tutqichi)",
+    "Apple": "Olma",
+    "Beef Jerky": "Quritilgan mol go'shti (gazak)",
+    "Cat Food": "Mushuklar uchun ozuqa",
+    "Chicken Breast": "Tovuq filesi",
+    "Cooking Oil": "O'simlik yog'i",
+    "Cucumber": "Bodring",
+    "Dog Food": "Kuchuklar uchun ozuqa",
+    "Eggs": "Tuxum",
+    "Fish Steak": "Baliq filesi (steyk)",
+    "Honey Jar": "Tabiiy asal",
+    "Ice Cream": "Muzqaymoq",
+    "Milk": "Sut",
+    "Orange": "Apelsin",
+    "Potato": "Kartoshka",
+    "Red Bull": "Red Bull",
+    "Rice": "Guruch",
+    "Soft Drinks": "Coca-Cola",
+    "Strawberry": "Qulupnay",
+    "Water": "Toza suv",
+    "iPhone 5s": "Apple iPhone 5s smartfoni",
+    "iPhone 6": "Apple iPhone 6 smartfoni",
+    "iPhone 13 Pro": "Apple iPhone 13 Pro 256GB",
+    "iPhone X": "Apple iPhone X 64GB",
+    "MacBook Pro": "Apple MacBook Pro noutbuki",
+  };
+
+  const descDict: Record<string, string> = {
+    "The Essence Mascara Lash Princess is a popular mascara known for its volume and lengthening effects.": "Essence Mascara Lash Princess - bu hajmi va uzaytiruvchi effektlari bilan mashhur bo'lgan ommabop kiprik tushi.",
+    "The Eyeshadow Palette with Mirror offers a variety of eyeshadow shades for creating different eye looks.": "Ko'zgu bilan jihozlangan ko'z soyalari palitrasi turli xil ko'rinishlarni yaratish uchun ko'p rangli soyalarni taqdim etadi.",
+    "The Powder Canister is a finely milled cosmetic powder designed for setting makeup and reducing shine.": "Pudra idishi - bu bo'yanishni mustahkamlash va ortiqcha porlashni kamaytirish uchun mo'ljallangan nozik maydalangan kosmetik pudra.",
+    "The Red Lipstick is a classic red lip makeup product that adds vibrant color and definition to the lips.": "Qizil lab bo'yog'i (pomada) - bu lablarga yorqin rang va jozibadorlik beruvchi klassik lab bo'yanish mahsulotidir.",
+    "The Red Nail Polish is a vibrant red nail lacquer designed for adding color and shine to the nails.": "Qizil tirnoq bo'yog'i - tirnoqlarga go'zallik, rang va porlash berish uchun mo'lanishiga javob beradigan tirnoq bo'yog'idir.",
+    "Calvin Klein CK One is a classic unisex fragrance known for its clean and fresh scent notes.": "Calvin Klein CK One - o'zining toza va yangi iforlari bilan tanilgan klassik uniseks atiridir.",
+    "Chanel Coco Mademoiselle is a sophisticated and feminine fragrance with floral and oriental notes.": "Chanel Coco Mademoiselle - bu gulli va sharqona notalarga ega nozik hamda nafis ayollar atiri.",
+    "Gucci Guilty Eau de Parfum is a bold and charismatic fragrance designed for modern individuals.": "Gucci Guilty Eau de Parfum - zamonaviy insonlar uchun mo'ljallangan jasur va xarizmatik ifor.",
+    "Perfume Oil is a concentrated fragrance oil that provides a long-lasting and personal scent experience.": "Atir moyi - bu uzoq vaqt saqlanib turuvchi va yoqimli hid beruvchi konsentrlangan ifor moyidir.",
+    "Brown Perfume is a rich and warm fragrance, offering a blend of woody and spicy notes.": "Jigarrang atir - yog'ochli va achchiq notalarning aralashmasini taqdim etuvchi boy va iliq ifordir.",
+    "Dior Fahrenheit is a classic men's fragrance featuring a unique blend of floral, woody, and leather notes.": "Dior Fahrenheit - gulli, yog'ochli va charm notalarning noyob aralashmasidan iborat klassik erkaklar atiri.",
+    "The Annibale Colombo Bed is a luxurious and elegant bed designed with high-quality materials.": "Annibale Colombo Bed - yuqori sifatli materiallardan tayyorlangan hashamatli va nafis karavot.",
+    "The Annibale Colombo Sofa is a high-end luxury sofa featuring premium leather upholstery and classic design.": "Annibale Colombo Sofa - premium charm qoplamasi va klassik dizaynga ega hashamatli va qimmatbaho divan.",
+    "The Bedside Table is a functional bedside cabinet designed to complement bedroom furniture.": "Karavot yonidagi tumba - yotoqxona mebellarini to'ldirish uchun mo'ljallangan funksional shkafcha.",
+    "The Knoll Saarinen Executive Chair is a premium office chair designed for comfort and modern aesthetic.": "Knoll Saarinen Executive Chair - qulaylik va zamonaviy estetika uchun mo'ljallangan yuqori sifatli ofis stuli.",
+    "The Wooden Banister is a handcrafted wooden stair railing designed for safety and style.": "Yog'och panjara - xavfsizlik va go'zal uslub uchun mo'ljallangan, qo'lda yasalgan yog'och zina tutqichi.",
+    "Fresh green apples, crisp and juicy.": "Shirin va suvli olma.",
+    "Beef Jerky is a high-protein snack made from dried lean beef.": "Quritilgan toza mol go'shtidan tayyorlangan yuqori oqsilli gazak.",
+    "Cat Food is a nutritious and balanced food designed for adult cats.": "Mushuklar uchun to'yimli va muvozanatli ozuqa.",
+    "Chicken Breast is a lean and healthy source of protein.": "Tovuq filesi - toza va sog'lom oqsil manbai.",
+    "Cooking Oil is a versatile vegetable oil designed for cooking and frying.": "Pishirish va qovurish uchun mo'ljallangan o'simlik moyi.",
+    "Fresh green cucumbers, crisp and refreshing.": "Sarxil va shirin bodring.",
+    "Dog Food is a premium dry kibble designed for adult dogs.": "Katta yoshdagi itlar uchun premium quruq ozuqa.",
+    "Fresh chicken eggs, high-quality and farm-fresh.": "Sifatli, toza va to'yimli tuxumlar.",
+    "Fresh fish steak, perfect for grilling or baking.": "Baliq filesi - qovurish yoki pechda pishirish uchun mo'ljallangan steyk.",
+    "Pure organic honey, gathered from natural wildflowers.": "Yovvoyi gullardan yig'ilgan shifobaxsh toza asal.",
+    "Delicious chocolate ice cream, rich and creamy.": "Mazali va shirin qaymoqli muzqaymoq.",
+    "Fresh whole milk, high-quality and pasteurized.": "Yangi va sifatli pasterizatsiyalangan sut.",
+    "Sweet and juicy oranges, packed with Vitamin C.": "S vitaminiga boy shirin va suvli apelsinlar.",
+    "Fresh organic potatoes, perfect for mashing or roasting.": "Sarxil kartoshkalar.",
+    "Red Bull is a popular energy drink designed to boost energy and mental performance.": "Red Bull - energiya va faollikni oshiruvchi ichimlik.",
+    "Premium white rice, perfect for local plov.": "Milliy palov pishirish uchun oq guruch.",
+    "Carbonated soft drinks, refreshing and classic.": "Salqin gazlangan ichimliklar.",
+    "Fresh sweet strawberries, perfect for desserts.": "Sarxil va shirin qulupnaylar.",
+    "Pure spring water, natural and refreshing.": "Tabiiy, toza va shirin suv.",
+  };
+
+  let title = titleDict[product.title] || product.title;
+  let description = descDict[product.description] || product.description;
+
+  // Fallback dynamic replacements if still in English
+  if (title === product.title) {
+    title = translateText(title);
+  }
+  if (description === product.description) {
+    description = translateText(description);
+  }
+
+  return {
+    ...product,
+    title,
+    description
+  };
+}
+
 function adjustProductPrice(product: Product): Product {
+  let adjusted = { ...product };
   if (product.category === 'groceries') {
     // 10x cheaper for groceries to match local Uzbek market pricing (e.g. 2,000 - 5,000 UZS)
-    return { ...product, price: product.price * 0.1 };
-  }
-  if (product.category === 'beauty' || product.category === 'skincare' || product.category === 'fragrances') {
+    adjusted.price = product.price * 0.1;
+  } else if (product.category === 'beauty' || product.category === 'skincare' || product.category === 'fragrances') {
     // 3x cheaper for beauty/cosmetics
-    return { ...product, price: product.price * 0.3 };
+    adjusted.price = product.price * 0.3;
+  } else {
+    // 2x cheaper for all other items to match competitive local market prices
+    adjusted.price = product.price * 0.5;
   }
-  // 2x cheaper for all other items to match competitive local market prices
-  return { ...product, price: product.price * 0.5 };
+  return translateProductToUzbek(adjusted);
 }
 
 export const MOCK_REDMI_PRODUCTS: Product[] = [
@@ -145,9 +400,9 @@ export const MOCK_REDMI_PRODUCTS: Product[] = [
     stock: 85,
     brand: "Xiaomi",
     category: "smartphones",
-    thumbnail: "https://fdn2.gsmarena.com/vv/bigpic/xiaomi-redmi-13c.jpg",
+    thumbnail: "/redmi-13c.png",
     images: [
-      "https://fdn2.gsmarena.com/vv/bigpic/xiaomi-redmi-13c.jpg"
+      "/redmi-13c.png"
     ]
   },
   {
@@ -160,9 +415,9 @@ export const MOCK_REDMI_PRODUCTS: Product[] = [
     stock: 12,
     brand: "Xiaomi",
     category: "smartphones",
-    thumbnail: "https://fdn2.gsmarena.com/vv/bigpic/xiaomi-14-ultra.jpg",
+    thumbnail: "/xiaomi-14-ultra.png",
     images: [
-      "https://fdn2.gsmarena.com/vv/bigpic/xiaomi-14-ultra.jpg"
+      "/xiaomi-14-ultra.png"
     ]
   },
   {
@@ -451,6 +706,44 @@ export const productsApi = {
         skip,
         limit,
       };
+    }
+
+    if (category === 'automotive' || category === 'vehicle') {
+      const limit = params?.limit || 20;
+      const skip = params?.skip || 0;
+      
+      const categoriesToFetch = ['vehicle', 'motorcycle'];
+      try {
+        const responses = await Promise.all(
+          categoriesToFetch.map(cat => 
+            apiFetch<PaginatedProducts>(`/products/category/${cat}?limit=15`)
+          )
+        );
+        
+        let allProducts: Product[] = [];
+        for (const res of responses) {
+          if (res && res.products) {
+            allProducts = [...allProducts, ...res.products];
+          }
+        }
+        
+        const productsMapped = allProducts.map(adjustProductPrice);
+        
+        return {
+          products: productsMapped.slice(skip, skip + limit),
+          total: productsMapped.length,
+          skip,
+          limit,
+        };
+      } catch (err) {
+        console.error('Error fetching vehicle categories:', err);
+        return {
+          products: [],
+          total: 0,
+          skip,
+          limit,
+        };
+      }
     }
 
     if (category === 'accessories') {

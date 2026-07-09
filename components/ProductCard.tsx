@@ -87,6 +87,7 @@ export default function ProductCard({ product }: ProductCardProps) {
             style={{ objectFit: 'cover' }}
             onError={handleImgError}
             sizes="(max-width: 768px) 50vw, 20vw"
+            referrerPolicy="no-referrer"
           />
 
           {/* Discount badge — top left, exact Uzum style: blue bg, white text */}

@@ -65,6 +65,7 @@ export default function CartPage() {
                       alt={item.product.title}
                       fill
                       style={{ objectFit: 'cover' }}
+                      referrerPolicy="no-referrer"
                     />
                   </div>
                 </Link>

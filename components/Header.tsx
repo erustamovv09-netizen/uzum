@@ -356,6 +356,7 @@ export default function Header() {
                         src={p.thumbnail}
                         alt={p.title}
                         style={{ width: 36, height: 36, borderRadius: 6, objectFit: 'cover', background: '#F8F8F8' }}
+                        referrerPolicy="no-referrer"
                       />
                       <div style={{ flex: 1, minWidth: 0 }}>
                         <div style={{ fontSize: 13, fontWeight: 500, color: '#1C1C1C', textOverflow: 'ellipsis', overflow: 'hidden', whiteSpace: 'nowrap' }}>

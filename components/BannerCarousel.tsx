@@ -24,7 +24,7 @@ export default function BannerCarousel() {
       title: t('banner2Title'), 
       sub: t('banner2Sub'), 
       badge: t('banner2Badge'), 
-      image: "https://fdn2.gsmarena.com/vv/bigpic/xiaomi-14-ultra.jpg", 
+      image: "https://images.unsplash.com/photo-1580910051074-3eb694886505?q=80&w=600&auto=format&fit=crop", 
       href: '/category/smartphones' 
     },
     { 
@@ -33,7 +33,7 @@ export default function BannerCarousel() {
       title: t('banner3Title'), 
       sub: t('banner3Sub'), 
       badge: t('banner3Badge'), 
-      image: "https://images.unsplash.com/photo-1610832958506-ee5633619144?q=80&w=600&auto=format&fit=crop", 
+      image: "https://images.unsplash.com/photo-1588964895597-cfccd6e2dbf9?q=80&w=600&auto=format&fit=crop", 
       href: '/category/groceries' 
     },
     { 
@@ -127,6 +127,7 @@ export default function BannerCarousel() {
                       objectFit: 'contain',
                       filter: 'drop-shadow(0 15px 30px rgba(0,0,0,0.35))' 
                     }} 
+                    referrerPolicy="no-referrer"
                   />
                 </div>
               )}
