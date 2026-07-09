@@ -494,16 +494,16 @@ export const MOCK_CLOTHING_PRODUCTS: Product[] = [
   },
   {
     id: 99104,
-    title: "Zamonaviy ayollar bluzkasi",
-    description: "Yengil va bejirim ayollar bluzkasi. Har qanday yubka yoki shim bilan chiroyli ko'rinadi.",
-    price: 28,
-    discountPercentage: 8,
-    rating: 4.6,
-    stock: 80,
-    brand: "Zara",
+    title: "Erkaklar klassik premium kostyumi",
+    description: "Kundalik ish, ofis va maxsus tadbirlar uchun sifatli matodan tikilgan erkaklar klassik premium kostyumi. Nafis dizayn, qulay bichim.",
+    price: 120,
+    discountPercentage: 10,
+    rating: 4.8,
+    stock: 40,
+    brand: "Zara Men",
     category: "tops",
-    thumbnail: "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?q=80&w=600&auto=format&fit=crop",
-    images: ["https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?q=80&w=600&auto=format&fit=crop"]
+    thumbnail: "https://images.unsplash.com/photo-1594938298603-c8148c4dae35?q=80&w=600&auto=format&fit=crop",
+    images: ["https://images.unsplash.com/photo-1594938298603-c8148c4dae35?q=80&w=600&auto=format&fit=crop"]
   },
   {
     id: 99201,
