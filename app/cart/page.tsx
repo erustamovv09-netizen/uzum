@@ -28,7 +28,7 @@ export default function CartPage() {
       </div>
     );
   }
-  
+
   const totalSaving = state.items.reduce((sum, item) => {
     const discounted = getDiscountedPrice(item.product.price, item.product.discountPercentage);
     return sum + (item.product.price - discounted) * item.quantity;
