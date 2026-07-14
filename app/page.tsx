@@ -42,7 +42,7 @@ async function PopularProducts() {
   const products = await getCachedProducts();
   return (
     <div className="responsive-product-grid">
-      {products.slice(0, 10).map(p => (
+      {products.slice(0, 15).map(p => (
         <ProductCard key={p.id} product={p} />
       ))}
     </div>
@@ -53,8 +53,33 @@ async function NewProducts() {
   const products = await getCachedProducts();
   return (
     <div className="responsive-product-grid">
-      {products.slice(10, 20).map(p => (
+      {products.slice(15, 30).map(p => (
         <ProductCard key={p.id} product={p} />
+      ))}
+    </div>
+  );
+}
+
+async function DiscountedProducts() {
+  const products = await getCachedProducts();
+  return (
+    <div className="responsive-product-grid">
+      {products.filter(p => p.discountPercentage > 10).slice(0, 10).map(p => (
+        <ProductCard key={p.id} product={p} />
+      ))}
+    </div>
+  );
+}
+
+async function CategoriesShowcase() {
+  const products = await getCachedProducts();
+  const categories = Array.from(new Set(products.map(p => p.category))).slice(0, 6);
+  return (
+    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(150px, 1fr))', gap: 16 }}>
+      {categories.map(cat => (
+        <div key={cat} style={{ background: '#f5f5f5', padding: 20, textAlign: 'center', borderRadius: 8, textTransform: 'capitalize' }}>
+          {cat.replace('-', ' ')}
+        </div>
       ))}
     </div>
   );
@@ -71,6 +96,14 @@ export default function HomePage() {
         {/* Quick Links */}
         <QuickLinks />
 
+        {/* Categories Showcase */}
+        <div style={{ marginBottom: 32 }}>
+          <SectionHeading titleKey="categories" defaultText="Kategoriyalar" />
+          <Suspense fallback={<div>Loading...</div>}>
+            <CategoriesShowcase />
+          </Suspense>
+        </div>
+
         {/* Mashhur Section */}
         <div style={{ marginBottom: 32 }}>
           <SectionHeading titleKey="popular" defaultText="Mashhur" />
@@ -84,6 +117,14 @@ export default function HomePage() {
           <SectionHeading titleKey="newProducts" defaultText="Yangi mahsulotlar" />
           <Suspense fallback={<ProductSkeletonList count={5} />}>
             <NewProducts />
+          </Suspense>
+        </div>
+
+        {/* Chegirmali Section */}
+        <div style={{ marginBottom: 32 }}>
+          <SectionHeading titleKey="discounted" defaultText="Chegirmadagi mahsulotlar" />
+          <Suspense fallback={<ProductSkeletonList count={5} />}>
+            <DiscountedProducts />
           </Suspense>
         </div>
 
