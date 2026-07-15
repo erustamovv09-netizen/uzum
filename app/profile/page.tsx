@@ -27,7 +27,7 @@ export default function ProfilePage() {
     <div style={{ maxWidth: 900, margin: '0 auto', padding: '32px 16px' }}>
       <h1 style={{ fontSize: 28, fontWeight: 800, marginBottom: 32 }}>👤 {t('profile')}</h1>
 
-      <div style={{ display: 'grid', gridTemplateColumns: '260px 1fr', gap: 24 }}>
+      <div className="profile-grid">
         {/* Sidebar */}
         <div>
           <div style={{ background: 'white', borderRadius: 20, padding: 24, border: '1px solid #F0F0F0', textAlign: 'center', marginBottom: 16 }}>

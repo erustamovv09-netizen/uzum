@@ -56,6 +56,8 @@ const TRANSLATIONS: Record<Language, Record<string, string>> = {
     // Home Page
     popular: "Mashhur",
     newProducts: "Yangi mahsulotlar",
+    discounted: "🔥 Chegirmali mahsulotlar",
+    topRated: "⭐ Yuqori baholangan",
     similarProducts: "O'xshash mahsulotlar",
     catMensClothing: "Erkaklar kiyimi",
     catKids: "Onalar va bolalar uchun",
@@ -302,6 +304,8 @@ const TRANSLATIONS: Record<Language, Record<string, string>> = {
     // Home Page
     popular: "Популярное",
     newProducts: "Новые товары",
+    discounted: "🔥 Товары со скидкой",
+    topRated: "⭐ Высоко оценённые",
     similarProducts: "Похожие товары",
     catMensClothing: "Мужская одежда",
     catKids: "Мамам и детям",

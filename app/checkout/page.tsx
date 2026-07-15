@@ -110,7 +110,7 @@ export default function CheckoutPage() {
         ))}
       </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 340px', gap: 24 }}>
+      <div className="checkout-grid">
         {/* Form */}
         <div style={{ background: 'white', borderRadius: 20, padding: 28, border: '1px solid #F0F0F0' }}>
           {step === 0 && (
